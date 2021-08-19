@@ -11,6 +11,7 @@
   reorder_columns = TRUE,
   row.title = "Archetypes",
   column.title = "Genes",
+  unit.name = "Expression",
   rowPal = "black"
 )
 }

@@ -281,6 +281,7 @@ plot.top.k.features <- function(feat_scores,
                                 reorder_columns = TRUE,
                                 row.title = "Archetypes",
                                 column.title = "Genes",
+                                unit.name = "Expression",
                                 rowPal = "black") {
   W <- select.top.k.features(
     feat_scores = feat_scores,
@@ -295,7 +296,7 @@ plot.top.k.features <- function(feat_scores,
   Z <- W
   ht <- ComplexHeatmap::Heatmap(
     matrix = Z,
-    name = "Expression (scaled)",
+    name = unit.name,
     cluster_rows = FALSE,
     cluster_columns = FALSE,
     col = gradPal,
