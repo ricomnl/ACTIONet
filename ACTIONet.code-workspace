@@ -8,7 +8,11 @@
 		"files.associations": {
 			"*.rmd": "markdown",
 			"exception": "cpp",
-			"optional": "cpp"
+			"optional": "cpp",
+			"array": "cpp",
+			"string": "cpp",
+			"string_view": "cpp",
+			"armadillo": "cpp"
 		}
 	}
 }

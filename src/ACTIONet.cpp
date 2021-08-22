@@ -2342,6 +2342,31 @@ field<vec> computeAutocorrelation_Geary_full(mat &G, mat &scores, int perm_no = 
   return (out);
 }
 
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+vec spmat_vec_product(sp_mat &A, vec &x)
+{
+  vec res = ACTIONet::spmat_vec_product(A, x);
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat spmat_mat_product(sp_mat &A, mat &B)
+{
+  mat res = ACTIONet::spmat_mat_product(A, B);
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+sp_mat spmat_spmat_product(sp_mat &A, sp_mat &B)
+{
+  //arma::sp_mat res0(A.n_rows, B.n_cols);
+  sp_mat res = ACTIONet::spmat_spmat_product(A, B);
+
+  return (res);
+}
 /*
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]

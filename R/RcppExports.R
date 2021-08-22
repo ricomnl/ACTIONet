@@ -1060,6 +1060,18 @@ computeAutocorrelation_Geary_full <- function(G, scores, perm_no = 30L, thread_n
     .Call(`_ACTIONet_computeAutocorrelation_Geary_full`, G, scores, perm_no, thread_no)
 }
 
+spmat_vec_product <- function(A, x) {
+    .Call(`_ACTIONet_spmat_vec_product`, A, x)
+}
+
+spmat_mat_product <- function(A, B) {
+    .Call(`_ACTIONet_spmat_mat_product`, A, B)
+}
+
+spmat_spmat_product <- function(A, B) {
+    .Call(`_ACTIONet_spmat_spmat_product`, A, B)
+}
+
 roll_var <- function(X) {
     .Call(`_ACTIONet_roll_var`, X)
 }

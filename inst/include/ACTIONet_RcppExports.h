@@ -1788,6 +1788,69 @@ namespace ACTIONet {
         return Rcpp::as<field<vec> >(rcpp_result_gen);
     }
 
+    inline vec spmat_vec_product(sp_mat& A, vec& x) {
+        typedef SEXP(*Ptr_spmat_vec_product)(SEXP,SEXP);
+        static Ptr_spmat_vec_product p_spmat_vec_product = NULL;
+        if (p_spmat_vec_product == NULL) {
+            validateSignature("vec(*spmat_vec_product)(sp_mat&,vec&)");
+            p_spmat_vec_product = (Ptr_spmat_vec_product)R_GetCCallable("ACTIONet", "_ACTIONet_spmat_vec_product");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_spmat_vec_product(Shield<SEXP>(Rcpp::wrap(A)), Shield<SEXP>(Rcpp::wrap(x)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<vec >(rcpp_result_gen);
+    }
+
+    inline mat spmat_mat_product(sp_mat& A, mat& B) {
+        typedef SEXP(*Ptr_spmat_mat_product)(SEXP,SEXP);
+        static Ptr_spmat_mat_product p_spmat_mat_product = NULL;
+        if (p_spmat_mat_product == NULL) {
+            validateSignature("mat(*spmat_mat_product)(sp_mat&,mat&)");
+            p_spmat_mat_product = (Ptr_spmat_mat_product)R_GetCCallable("ACTIONet", "_ACTIONet_spmat_mat_product");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_spmat_mat_product(Shield<SEXP>(Rcpp::wrap(A)), Shield<SEXP>(Rcpp::wrap(B)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
+    inline sp_mat spmat_spmat_product(sp_mat& A, sp_mat& B) {
+        typedef SEXP(*Ptr_spmat_spmat_product)(SEXP,SEXP);
+        static Ptr_spmat_spmat_product p_spmat_spmat_product = NULL;
+        if (p_spmat_spmat_product == NULL) {
+            validateSignature("sp_mat(*spmat_spmat_product)(sp_mat&,sp_mat&)");
+            p_spmat_spmat_product = (Ptr_spmat_spmat_product)R_GetCCallable("ACTIONet", "_ACTIONet_spmat_spmat_product");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_spmat_spmat_product(Shield<SEXP>(Rcpp::wrap(A)), Shield<SEXP>(Rcpp::wrap(B)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<sp_mat >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_ACTIONet_RCPPEXPORTS_H_GEN_
