@@ -1746,6 +1746,48 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
+    inline field<vec> computeAutocorrelation_Geary(sp_mat& G, mat& scores, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_computeAutocorrelation_Geary)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_computeAutocorrelation_Geary p_computeAutocorrelation_Geary = NULL;
+        if (p_computeAutocorrelation_Geary == NULL) {
+            validateSignature("field<vec>(*computeAutocorrelation_Geary)(sp_mat&,mat&,int,int)");
+            p_computeAutocorrelation_Geary = (Ptr_computeAutocorrelation_Geary)R_GetCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_computeAutocorrelation_Geary(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<field<vec> >(rcpp_result_gen);
+    }
+
+    inline field<vec> computeAutocorrelation_Geary_full(mat& G, mat& scores, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_computeAutocorrelation_Geary_full)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_computeAutocorrelation_Geary_full p_computeAutocorrelation_Geary_full = NULL;
+        if (p_computeAutocorrelation_Geary_full == NULL) {
+            validateSignature("field<vec>(*computeAutocorrelation_Geary_full)(mat&,mat&,int,int)");
+            p_computeAutocorrelation_Geary_full = (Ptr_computeAutocorrelation_Geary_full)R_GetCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary_full");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_computeAutocorrelation_Geary_full(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<field<vec> >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_ACTIONet_RCPPEXPORTS_H_GEN_

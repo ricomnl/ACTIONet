@@ -3073,6 +3073,80 @@ RcppExport SEXP _ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed(SEXP
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// computeAutocorrelation_Geary
+field<vec> computeAutocorrelation_Geary(sp_mat& G, mat& scores, int perm_no, int thread_no);
+static SEXP _ACTIONet_computeAutocorrelation_Geary_try(SEXP GSEXP, SEXP scoresSEXP, SEXP perm_noSEXP, SEXP thread_noSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
+    Rcpp::traits::input_parameter< mat& >::type scores(scoresSEXP);
+    Rcpp::traits::input_parameter< int >::type perm_no(perm_noSEXP);
+    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
+    rcpp_result_gen = Rcpp::wrap(computeAutocorrelation_Geary(G, scores, perm_no, thread_no));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _ACTIONet_computeAutocorrelation_Geary(SEXP GSEXP, SEXP scoresSEXP, SEXP perm_noSEXP, SEXP thread_noSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_ACTIONet_computeAutocorrelation_Geary_try(GSEXP, scoresSEXP, perm_noSEXP, thread_noSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// computeAutocorrelation_Geary_full
+field<vec> computeAutocorrelation_Geary_full(mat& G, mat& scores, int perm_no, int thread_no);
+static SEXP _ACTIONet_computeAutocorrelation_Geary_full_try(SEXP GSEXP, SEXP scoresSEXP, SEXP perm_noSEXP, SEXP thread_noSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< mat& >::type G(GSEXP);
+    Rcpp::traits::input_parameter< mat& >::type scores(scoresSEXP);
+    Rcpp::traits::input_parameter< int >::type perm_no(perm_noSEXP);
+    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
+    rcpp_result_gen = Rcpp::wrap(computeAutocorrelation_Geary_full(G, scores, perm_no, thread_no));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _ACTIONet_computeAutocorrelation_Geary_full(SEXP GSEXP, SEXP scoresSEXP, SEXP perm_noSEXP, SEXP thread_noSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_ACTIONet_computeAutocorrelation_Geary_full_try(GSEXP, scoresSEXP, perm_noSEXP, thread_noSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // roll_var
 vec roll_var(vec& X);
 RcppExport SEXP _ACTIONet_roll_var(SEXP XSEXP) {
@@ -3231,6 +3305,8 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("mat(*compute_marker_aggregate_stats)(sp_mat&,sp_mat&,sp_mat&,double,int,int,bool)");
         signatures.insert("sp_mat(*LSI)(sp_mat&,double)");
         signatures.insert("mat(*compute_marker_aggregate_stats_TFIDF_sum_smoothed)(sp_mat&,sp_mat&,sp_mat&,double,int,int,int,int)");
+        signatures.insert("field<vec>(*computeAutocorrelation_Geary)(sp_mat&,mat&,int,int)");
+        signatures.insert("field<vec>(*computeAutocorrelation_Geary_full)(mat&,mat&,int,int)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -3319,6 +3395,8 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats", (DL_FUNC)_ACTIONet_compute_marker_aggregate_stats_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_LSI", (DL_FUNC)_ACTIONet_LSI_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed", (DL_FUNC)_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary", (DL_FUNC)_ACTIONet_computeAutocorrelation_Geary_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary_full", (DL_FUNC)_ACTIONet_computeAutocorrelation_Geary_full_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_RcppExport_validate", (DL_FUNC)_ACTIONet_RcppExport_validate);
     return R_NilValue;
 }
@@ -3406,6 +3484,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_compute_marker_aggregate_stats", (DL_FUNC) &_ACTIONet_compute_marker_aggregate_stats, 7},
     {"_ACTIONet_LSI", (DL_FUNC) &_ACTIONet_LSI, 2},
     {"_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed", (DL_FUNC) &_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed, 8},
+    {"_ACTIONet_computeAutocorrelation_Geary", (DL_FUNC) &_ACTIONet_computeAutocorrelation_Geary, 4},
+    {"_ACTIONet_computeAutocorrelation_Geary_full", (DL_FUNC) &_ACTIONet_computeAutocorrelation_Geary_full, 4},
     {"_ACTIONet_roll_var", (DL_FUNC) &_ACTIONet_roll_var, 1},
     {"_ACTIONet_fast_row_sums", (DL_FUNC) &_ACTIONet_fast_row_sums, 1},
     {"_ACTIONet_fast_column_sums", (DL_FUNC) &_ACTIONet_fast_column_sums, 1},

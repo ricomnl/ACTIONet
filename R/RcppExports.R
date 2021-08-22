@@ -1052,6 +1052,14 @@ compute_marker_aggregate_stats_TFIDF_sum_smoothed <- function(G, S, marker_mat, 
     .Call(`_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed`, G, S, marker_mat, alpha, max_it, perm_no, thread_no, normalization)
 }
 
+computeAutocorrelation_Geary <- function(G, scores, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_computeAutocorrelation_Geary`, G, scores, perm_no, thread_no)
+}
+
+computeAutocorrelation_Geary_full <- function(G, scores, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_computeAutocorrelation_Geary_full`, G, scores, perm_no, thread_no)
+}
+
 roll_var <- function(X) {
     .Call(`_ACTIONet_roll_var`, X)
 }

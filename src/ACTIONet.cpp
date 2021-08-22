@@ -2323,6 +2323,25 @@ mat compute_marker_aggregate_stats_TFIDF_sum_smoothed(sp_mat &G, sp_mat &S, sp_m
 
   return (stats);
 }
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+field<vec> computeAutocorrelation_Geary(sp_mat &G, mat &scores, int perm_no = 30, int thread_no = 0)
+{
+  field<vec> out = ACTIONet::computeAutocorrelation_Geary(G, scores, perm_no, thread_no);
+
+  return (out);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+field<vec> computeAutocorrelation_Geary_full(mat &G, mat &scores, int perm_no = 30, int thread_no = 0)
+{
+  field<vec> out = ACTIONet::computeAutocorrelation_Geary(G, scores, perm_no, thread_no);
+
+  return (out);
+}
+
 /*
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
