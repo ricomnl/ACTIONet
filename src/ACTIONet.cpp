@@ -2362,7 +2362,6 @@ mat spmat_mat_product(sp_mat &A, mat &B)
 // [[Rcpp::export]]
 sp_mat spmat_spmat_product(sp_mat &A, sp_mat &B)
 {
-  //arma::sp_mat res0(A.n_rows, B.n_cols);
   sp_mat res = ACTIONet::spmat_spmat_product(A, B);
 
   return (res);
