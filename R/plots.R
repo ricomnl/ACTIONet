@@ -1686,7 +1686,6 @@ plot.mtRNA.dist.by.attr <- function(ace,
     ace = ace,
     by = by,
     groups_use = groups_use,
-    features_use = features_use,
     assay = assay,
     species = species,
     metric = metric

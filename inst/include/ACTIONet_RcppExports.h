@@ -1746,17 +1746,17 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline field<vec> computeAutocorrelation_Geary(sp_mat& G, mat& scores, int perm_no = 30, int thread_no = 0) {
-        typedef SEXP(*Ptr_computeAutocorrelation_Geary)(SEXP,SEXP,SEXP,SEXP);
-        static Ptr_computeAutocorrelation_Geary p_computeAutocorrelation_Geary = NULL;
-        if (p_computeAutocorrelation_Geary == NULL) {
-            validateSignature("field<vec>(*computeAutocorrelation_Geary)(sp_mat&,mat&,int,int)");
-            p_computeAutocorrelation_Geary = (Ptr_computeAutocorrelation_Geary)R_GetCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary");
+    inline List autocorrelation_Geary(sp_mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_autocorrelation_Geary)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_autocorrelation_Geary p_autocorrelation_Geary = NULL;
+        if (p_autocorrelation_Geary == NULL) {
+            validateSignature("List(*autocorrelation_Geary)(sp_mat,mat,int,int,int)");
+            p_autocorrelation_Geary = (Ptr_autocorrelation_Geary)R_GetCCallable("ACTIONet", "_ACTIONet_autocorrelation_Geary");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_computeAutocorrelation_Geary(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+            rcpp_result_gen = p_autocorrelation_Geary(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(normalization_method)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -1764,20 +1764,20 @@ namespace ACTIONet {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<field<vec> >(rcpp_result_gen);
+        return Rcpp::as<List >(rcpp_result_gen);
     }
 
-    inline field<vec> computeAutocorrelation_Geary_full(mat& G, mat& scores, int perm_no = 30, int thread_no = 0) {
-        typedef SEXP(*Ptr_computeAutocorrelation_Geary_full)(SEXP,SEXP,SEXP,SEXP);
-        static Ptr_computeAutocorrelation_Geary_full p_computeAutocorrelation_Geary_full = NULL;
-        if (p_computeAutocorrelation_Geary_full == NULL) {
-            validateSignature("field<vec>(*computeAutocorrelation_Geary_full)(mat&,mat&,int,int)");
-            p_computeAutocorrelation_Geary_full = (Ptr_computeAutocorrelation_Geary_full)R_GetCCallable("ACTIONet", "_ACTIONet_computeAutocorrelation_Geary_full");
+    inline List autocorrelation_Geary_full(mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_autocorrelation_Geary_full)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_autocorrelation_Geary_full p_autocorrelation_Geary_full = NULL;
+        if (p_autocorrelation_Geary_full == NULL) {
+            validateSignature("List(*autocorrelation_Geary_full)(mat,mat,int,int,int)");
+            p_autocorrelation_Geary_full = (Ptr_autocorrelation_Geary_full)R_GetCCallable("ACTIONet", "_ACTIONet_autocorrelation_Geary_full");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_computeAutocorrelation_Geary_full(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+            rcpp_result_gen = p_autocorrelation_Geary_full(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(normalization_method)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -1785,7 +1785,49 @@ namespace ACTIONet {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<field<vec> >(rcpp_result_gen);
+        return Rcpp::as<List >(rcpp_result_gen);
+    }
+
+    inline List autocorrelation_Moran(sp_mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_autocorrelation_Moran)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_autocorrelation_Moran p_autocorrelation_Moran = NULL;
+        if (p_autocorrelation_Moran == NULL) {
+            validateSignature("List(*autocorrelation_Moran)(sp_mat,mat,int,int,int)");
+            p_autocorrelation_Moran = (Ptr_autocorrelation_Moran)R_GetCCallable("ACTIONet", "_ACTIONet_autocorrelation_Moran");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_autocorrelation_Moran(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(normalization_method)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<List >(rcpp_result_gen);
+    }
+
+    inline List autocorrelation_Moran_full(mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0) {
+        typedef SEXP(*Ptr_autocorrelation_Moran_full)(SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_autocorrelation_Moran_full p_autocorrelation_Moran_full = NULL;
+        if (p_autocorrelation_Moran_full == NULL) {
+            validateSignature("List(*autocorrelation_Moran_full)(mat,mat,int,int,int)");
+            p_autocorrelation_Moran_full = (Ptr_autocorrelation_Moran_full)R_GetCCallable("ACTIONet", "_ACTIONet_autocorrelation_Moran_full");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_autocorrelation_Moran_full(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(scores)), Shield<SEXP>(Rcpp::wrap(normalization_method)), Shield<SEXP>(Rcpp::wrap(perm_no)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<List >(rcpp_result_gen);
     }
 
     inline vec spmat_vec_product(sp_mat& A, vec& x) {
@@ -1809,11 +1851,11 @@ namespace ACTIONet {
         return Rcpp::as<vec >(rcpp_result_gen);
     }
 
-    inline mat spmat_mat_product(sp_mat& A, mat& B) {
+    inline mat spmat_mat_product(sp_mat A, mat B) {
         typedef SEXP(*Ptr_spmat_mat_product)(SEXP,SEXP);
         static Ptr_spmat_mat_product p_spmat_mat_product = NULL;
         if (p_spmat_mat_product == NULL) {
-            validateSignature("mat(*spmat_mat_product)(sp_mat&,mat&)");
+            validateSignature("mat(*spmat_mat_product)(sp_mat,mat)");
             p_spmat_mat_product = (Ptr_spmat_mat_product)R_GetCCallable("ACTIONet", "_ACTIONet_spmat_mat_product");
         }
         RObject rcpp_result_gen;
@@ -1830,11 +1872,11 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline sp_mat spmat_spmat_product(sp_mat& A, sp_mat& B) {
+    inline sp_mat spmat_spmat_product(sp_mat A, sp_mat B) {
         typedef SEXP(*Ptr_spmat_spmat_product)(SEXP,SEXP);
         static Ptr_spmat_spmat_product p_spmat_spmat_product = NULL;
         if (p_spmat_spmat_product == NULL) {
-            validateSignature("sp_mat(*spmat_spmat_product)(sp_mat&,sp_mat&)");
+            validateSignature("sp_mat(*spmat_spmat_product)(sp_mat,sp_mat)");
             p_spmat_spmat_product = (Ptr_spmat_spmat_product)R_GetCCallable("ACTIONet", "_ACTIONet_spmat_spmat_product");
         }
         RObject rcpp_result_gen;

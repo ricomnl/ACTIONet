@@ -1052,12 +1052,20 @@ compute_marker_aggregate_stats_TFIDF_sum_smoothed <- function(G, S, marker_mat, 
     .Call(`_ACTIONet_compute_marker_aggregate_stats_TFIDF_sum_smoothed`, G, S, marker_mat, alpha, max_it, perm_no, thread_no, normalization)
 }
 
-computeAutocorrelation_Geary <- function(G, scores, perm_no = 30L, thread_no = 0L) {
-    .Call(`_ACTIONet_computeAutocorrelation_Geary`, G, scores, perm_no, thread_no)
+autocorrelation_Geary <- function(G, scores, normalization_method = 1L, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_autocorrelation_Geary`, G, scores, normalization_method, perm_no, thread_no)
 }
 
-computeAutocorrelation_Geary_full <- function(G, scores, perm_no = 30L, thread_no = 0L) {
-    .Call(`_ACTIONet_computeAutocorrelation_Geary_full`, G, scores, perm_no, thread_no)
+autocorrelation_Geary_full <- function(G, scores, normalization_method = 1L, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_autocorrelation_Geary_full`, G, scores, normalization_method, perm_no, thread_no)
+}
+
+autocorrelation_Moran <- function(G, scores, normalization_method = 1L, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_autocorrelation_Moran`, G, scores, normalization_method, perm_no, thread_no)
+}
+
+autocorrelation_Moran_full <- function(G, scores, normalization_method = 1L, perm_no = 30L, thread_no = 0L) {
+    .Call(`_ACTIONet_autocorrelation_Moran_full`, G, scores, normalization_method, perm_no, thread_no)
 }
 
 spmat_vec_product <- function(A, x) {

@@ -2326,20 +2326,62 @@ mat compute_marker_aggregate_stats_TFIDF_sum_smoothed(sp_mat &G, sp_mat &S, sp_m
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-field<vec> computeAutocorrelation_Geary(sp_mat &G, mat &scores, int perm_no = 30, int thread_no = 0)
+List autocorrelation_Geary(sp_mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0)
 {
-  field<vec> out = ACTIONet::computeAutocorrelation_Geary(G, scores, perm_no, thread_no);
+  field<vec> out = ACTIONet::autocorrelation_Geary(G, scores, normalization_method, perm_no, thread_no);
 
-  return (out);
+  List res;
+  res["Geary_C"] = out[0];
+  res["zscore"] = out[1];
+  res["mu"] = out[2];
+  res["sigma"] = out[3];
+
+  return (res);
 }
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-field<vec> computeAutocorrelation_Geary_full(mat &G, mat &scores, int perm_no = 30, int thread_no = 0)
+List autocorrelation_Geary_full(mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0)
 {
-  field<vec> out = ACTIONet::computeAutocorrelation_Geary(G, scores, perm_no, thread_no);
+  field<vec> out = ACTIONet::autocorrelation_Geary(G, scores, normalization_method, perm_no, thread_no);
 
-  return (out);
+  List res;
+  res["Geary_C"] = out[0];
+  res["zscore"] = out[1];
+  res["mu"] = out[2];
+  res["sigma"] = out[3];
+
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+List autocorrelation_Moran(sp_mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0)
+{
+  field<vec> out = ACTIONet::autocorrelation_Moran(G, scores, normalization_method, perm_no, thread_no);
+
+  List res;
+  res["Moran_I"] = out[0];
+  res["zscore"] = out[1];
+  res["mu"] = out[2];
+  res["sigma"] = out[3];
+
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+List autocorrelation_Moran_full(mat G, mat scores, int normalization_method = 1, int perm_no = 30, int thread_no = 0)
+{
+  field<vec> out = ACTIONet::autocorrelation_Moran(G, scores, normalization_method, perm_no, thread_no);
+
+  List res;
+  res["Moran_I"] = out[0];
+  res["zscore"] = out[1];
+  res["mu"] = out[2];
+  res["sigma"] = out[3];
+
+  return (res);
 }
 
 // [[Rcpp::depends(RcppArmadillo)]]
@@ -2352,7 +2394,7 @@ vec spmat_vec_product(sp_mat &A, vec &x)
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-mat spmat_mat_product(sp_mat &A, mat &B)
+mat spmat_mat_product(sp_mat A, mat B)
 {
   mat res = ACTIONet::spmat_mat_product(A, B);
   return (res);
@@ -2360,7 +2402,7 @@ mat spmat_mat_product(sp_mat &A, mat &B)
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-sp_mat spmat_spmat_product(sp_mat &A, sp_mat &B)
+sp_mat spmat_spmat_product(sp_mat A, sp_mat B)
 {
   sp_mat res = ACTIONet::spmat_spmat_product(A, B);
 
