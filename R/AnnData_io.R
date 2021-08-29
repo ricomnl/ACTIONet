@@ -45,36 +45,43 @@ write.HD5DF <- function(
     h5addAttr.str(h5group, "encoding-type", "dataframe")
 
     if (0 < NCOL(DF)) {
-        cat.vars = which(sapply(1:NCOL(DF), function(i) length(unique(DF[, i])) <
-            256))
+      noncat.num.vars = which(apply(DF, 2, is.numeric))
+      # cat.vars = which(apply(DF, 2, function(x) length(unique(x)) < 256))
+      cat.vars = which(apply(DF, 2, function(x) length(unique(x)) < 128))
+      cat.vars = setdiff(cat.vars, noncat.num.vars)
+      noncat.vars = setdiff(1:NCOL(DF), c(cat.vars, noncat.num.vars))
+        # cat.vars = which(sapply(1:NCOL(DF), function(i) length(unique(DF[, i])) <
+        #     256))
 
-        noncat.vars = setdiff(1:NCOL(DF), cat.vars)
-        if (length(noncat.vars) > 0) {
-            noncat.num.vars = noncat.vars[sapply(noncat.vars, function(i) {
-                x = as.numeric(DF[, i])
-                return(sum(!is.na(x)) > 0)
-            })]
-        } else {
-            noncat.num.vars = noncat.vars
-        }
+        # noncat.vars = setdiff(1:NCOL(DF), cat.vars)
+        # if (length(noncat.vars) > 0) {
+        #     noncat.num.vars = noncat.vars[sapply(noncat.vars, function(i) {
+        #         x = as.numeric(DF[, i])
+        #         return(sum(!is.na(x)) > 0)
+        #     })]
+        #
+        # } else {
+        #     noncat.num.vars = noncat.vars
+        # }
 
-        noncat.nonnum.vars = setdiff(noncat.vars, noncat.num.vars)
+        # noncat.nonnum.vars = setdiff(noncat.vars, noncat.num.vars)
 
-        if (length(cat.vars) > 0) {
-            cat.vars = setdiff(cat.vars, noncat.num.vars)
-        }
+        # if (length(cat.vars) > 0) {
+        #     cat.vars = setdiff(cat.vars, noncat.num.vars)
+        # }
 
         # cn = colnames(DF)[c(cat.vars, noncat.num.vars)]
         cn = colnames(DF)
-        catDF = DF[, cat.vars, drop = F]
+        catDF = DF[, cat.vars, drop = FALSE]
         catDF = apply(catDF, 2, as.character)
         catDF[is.na(catDF)] = "NA"
 
-        numDF = DF[, noncat.num.vars, drop = F]
+        numDF = DF[, noncat.num.vars, drop = FALSE]
         numDF = apply(numDF, 2, as.numeric)
         numDF[is.na(numDF)] = NA
 
-        nonNumDF = DF[, noncat.nonnum.vars, drop = F]
+        nonNumDF = DF[, noncat.vars, drop = FALSE]
+        # nonNumDF = DF[, noncat.nonnum.vars, drop = FALSE]
         nonNumDF = apply(nonNumDF, 2, as.character)
         nonNumDF[is.na(nonNumDF)] = NA
 
@@ -95,14 +102,16 @@ write.HD5DF <- function(
 
             for (i in 1:length(cat.vars)) {
                 x = catDF[, i]  #DF[, cat.vars[i]]
-                if (class(x) == "factor") {
-                  l = as.character(levels(x))
-                  v = as.numeric(x) - 1
-                } else {
-                  x = as.character(x)
-                  l = sort(unique(x))
-                  v = match(x, l) - 1
-                }
+                l = sort(unique(x))
+                v = match(x, l) - 1
+                # if (class(x) == "factor") {
+                #   l = as.character(levels(x))
+                #   v = as.numeric(x) - 1
+                # } else {
+                #   x = as.character(x)
+                #   l = sort(unique(x))
+                #   v = match(x, l) - 1
+                # }
 
                 dtype = H5T_STRING$new(type = "c", size = Inf)
                 dtype = dtype$set_cset(cset = "UTF-8")
@@ -140,7 +149,8 @@ write.HD5DF <- function(
             }
         }
 
-        if (length(noncat.nonnum.vars) > 0) {
+        # if (length(noncat.nonnum.vars) > 0) {
+        if (length(noncat.vars) > 0) {
             for (i in 1:NCOL(nonNumDF)) {
                 x = nonNumDF[, i]
                 nn = colnames(nonNumDF)[i]
@@ -614,18 +624,10 @@ AnnData2ACE <- function(
       if (length(X.attr) == 0) {
           # Full matrix
           X = h5file[["X"]]$read()
-          sub.samples = unique(X[1:1000, 1])
       } else {
           X = read.HD5SpMat(h5file = h5file, gname = "X")
-          sub.samples = unique(X@x[1:1000])
       }
 
-	  if(sum(round(sub.samples) != sub.samples) == 0) {
-		  main_assay = "counts"
-	  } else {
-		  main_assay = "logcounts"
-	  }
-	  
       input_assays = list(X)
       names(input_assays) = main_assay
     } else {
