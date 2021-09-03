@@ -2394,7 +2394,7 @@ vec spmat_vec_product(sp_mat &A, vec &x)
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-mat spmat_mat_product(sp_mat A, mat B)
+mat spmat_mat_product(sp_mat &A, mat &B)
 {
   mat res = ACTIONet::spmat_mat_product(A, B);
   return (res);
@@ -2402,9 +2402,27 @@ mat spmat_mat_product(sp_mat A, mat B)
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-sp_mat spmat_spmat_product(sp_mat A, sp_mat B)
+sp_mat spmat_spmat_product(sp_mat &A, sp_mat &B)
 {
   sp_mat res = ACTIONet::spmat_spmat_product(A, B);
+
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat spmat_mat_product_parallel(sp_mat &A, mat &B, int thread_no)
+{
+  mat res = ACTIONet::spmat_mat_product_parallel(A, B, thread_no);
+
+  return (res);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat mat_mat_product_parallel(mat &A, mat &B, int thread_no)
+{
+  mat res = ACTIONet::mat_mat_product_parallel(A, B, thread_no);
 
   return (res);
 }

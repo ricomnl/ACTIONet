@@ -1080,6 +1080,14 @@ spmat_spmat_product <- function(A, B) {
     .Call(`_ACTIONet_spmat_spmat_product`, A, B)
 }
 
+spmat_mat_product_parallel <- function(A, B, thread_no) {
+    .Call(`_ACTIONet_spmat_mat_product_parallel`, A, B, thread_no)
+}
+
+mat_mat_product_parallel <- function(A, B, thread_no) {
+    .Call(`_ACTIONet_mat_mat_product_parallel`, A, B, thread_no)
+}
+
 roll_var <- function(X) {
     .Call(`_ACTIONet_roll_var`, X)
 }
