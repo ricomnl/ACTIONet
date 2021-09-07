@@ -2426,6 +2426,22 @@ mat mat_mat_product_parallel(mat &A, mat &B, int thread_no)
 
   return (res);
 }
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat project_to_coordinate_2D(sp_mat &W, mat coor2D,
+                             int compactness_level = 50,
+                             unsigned int n_epochs = 1000, int thread_no = 0,
+                             int seed = 0)
+{
+  mat coors = ACTIONet::project_to_coordinate_2D(W, coor2D,
+                                                 compactness_level,
+                                                 n_epochs, thread_no,
+                                                 seed);
+
+  return (coors);
+}
+
 /*
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]

@@ -1935,6 +1935,27 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
+    inline mat project_to_coordinate_2D(sp_mat& W, mat coor2D, int compactness_level = 50, unsigned int n_epochs = 1000, int thread_no = 0, int seed = 0) {
+        typedef SEXP(*Ptr_project_to_coordinate_2D)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_project_to_coordinate_2D p_project_to_coordinate_2D = NULL;
+        if (p_project_to_coordinate_2D == NULL) {
+            validateSignature("mat(*project_to_coordinate_2D)(sp_mat&,mat,int,unsigned int,int,int)");
+            p_project_to_coordinate_2D = (Ptr_project_to_coordinate_2D)R_GetCCallable("ACTIONet", "_ACTIONet_project_to_coordinate_2D");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_project_to_coordinate_2D(Shield<SEXP>(Rcpp::wrap(W)), Shield<SEXP>(Rcpp::wrap(coor2D)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_ACTIONet_RCPPEXPORTS_H_GEN_

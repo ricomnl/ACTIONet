@@ -3402,6 +3402,45 @@ RcppExport SEXP _ACTIONet_mat_mat_product_parallel(SEXP ASEXP, SEXP BSEXP, SEXP 
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// project_to_coordinate_2D
+mat project_to_coordinate_2D(sp_mat& W, mat coor2D, int compactness_level, unsigned int n_epochs, int thread_no, int seed);
+static SEXP _ACTIONet_project_to_coordinate_2D_try(SEXP WSEXP, SEXP coor2DSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< sp_mat& >::type W(WSEXP);
+    Rcpp::traits::input_parameter< mat >::type coor2D(coor2DSEXP);
+    Rcpp::traits::input_parameter< int >::type compactness_level(compactness_levelSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type n_epochs(n_epochsSEXP);
+    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(project_to_coordinate_2D(W, coor2D, compactness_level, n_epochs, thread_no, seed));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _ACTIONet_project_to_coordinate_2D(SEXP WSEXP, SEXP coor2DSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_ACTIONet_project_to_coordinate_2D_try(WSEXP, coor2DSEXP, compactness_levelSEXP, n_epochsSEXP, thread_noSEXP, seedSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // roll_var
 vec roll_var(vec& X);
 RcppExport SEXP _ACTIONet_roll_var(SEXP XSEXP) {
@@ -3569,6 +3608,7 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("sp_mat(*spmat_spmat_product)(sp_mat&,sp_mat&)");
         signatures.insert("mat(*spmat_mat_product_parallel)(sp_mat&,mat&,int)");
         signatures.insert("mat(*mat_mat_product_parallel)(mat&,mat&,int)");
+        signatures.insert("mat(*project_to_coordinate_2D)(sp_mat&,mat,int,unsigned int,int,int)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -3666,6 +3706,7 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_spmat_spmat_product", (DL_FUNC)_ACTIONet_spmat_spmat_product_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_spmat_mat_product_parallel", (DL_FUNC)_ACTIONet_spmat_mat_product_parallel_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_mat_mat_product_parallel", (DL_FUNC)_ACTIONet_mat_mat_product_parallel_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_project_to_coordinate_2D", (DL_FUNC)_ACTIONet_project_to_coordinate_2D_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_RcppExport_validate", (DL_FUNC)_ACTIONet_RcppExport_validate);
     return R_NilValue;
 }
@@ -3762,6 +3803,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_spmat_spmat_product", (DL_FUNC) &_ACTIONet_spmat_spmat_product, 2},
     {"_ACTIONet_spmat_mat_product_parallel", (DL_FUNC) &_ACTIONet_spmat_mat_product_parallel, 3},
     {"_ACTIONet_mat_mat_product_parallel", (DL_FUNC) &_ACTIONet_mat_mat_product_parallel, 3},
+    {"_ACTIONet_project_to_coordinate_2D", (DL_FUNC) &_ACTIONet_project_to_coordinate_2D, 6},
     {"_ACTIONet_roll_var", (DL_FUNC) &_ACTIONet_roll_var, 1},
     {"_ACTIONet_fast_row_sums", (DL_FUNC) &_ACTIONet_fast_row_sums, 1},
     {"_ACTIONet_fast_column_sums", (DL_FUNC) &_ACTIONet_fast_column_sums, 1},
