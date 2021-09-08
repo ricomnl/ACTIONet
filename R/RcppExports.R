@@ -927,10 +927,6 @@ Prune_PageRank <- function(U, density = 1.0) {
     .Call(`_ACTIONet_Prune_PageRank`, U, density)
 }
 
-transform_layout <- function(W, coor2D, coor3D, colRGB, compactness_level = 50L, n_epochs = 500L, thread_no = 0L, seed = 0L) {
-    .Call(`_ACTIONet_transform_layout`, W, coor2D, coor3D, colRGB, compactness_level, n_epochs, thread_no, seed)
-}
-
 sgd2_layout_weighted <- function(G, S_r, t_max = 30L, eps = .01, seed = 0L) {
     .Call(`_ACTIONet_sgd2_layout_weighted`, G, S_r, t_max, eps, seed)
 }
@@ -1088,8 +1084,8 @@ mat_mat_product_parallel <- function(A, B, thread_no) {
     .Call(`_ACTIONet_mat_mat_product_parallel`, A, B, thread_no)
 }
 
-project_to_coordinate_2D <- function(W, coor2D, compactness_level = 50L, n_epochs = 1000L, thread_no = 0L, seed = 0L) {
-    .Call(`_ACTIONet_project_to_coordinate_2D`, W, coor2D, compactness_level, n_epochs, thread_no, seed)
+transform_layout <- function(G, inter_graph, reference_coordinates, compactness_level = 50L, n_epochs = 500L, layout_alg = 0L, thread_no = 0L, seed = 0L) {
+    .Call(`_ACTIONet_transform_layout`, G, inter_graph, reference_coordinates, compactness_level, n_epochs, layout_alg, thread_no, seed)
 }
 
 roll_var <- function(X) {

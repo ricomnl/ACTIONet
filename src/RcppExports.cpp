@@ -1961,47 +1961,6 @@ RcppExport SEXP _ACTIONet_Prune_PageRank(SEXP USEXP, SEXP densitySEXP) {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// transform_layout
-List transform_layout(sp_mat& W, mat coor2D, mat coor3D, mat colRGB, int compactness_level, unsigned int n_epochs, int thread_no, int seed);
-static SEXP _ACTIONet_transform_layout_try(SEXP WSEXP, SEXP coor2DSEXP, SEXP coor3DSEXP, SEXP colRGBSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< sp_mat& >::type W(WSEXP);
-    Rcpp::traits::input_parameter< mat >::type coor2D(coor2DSEXP);
-    Rcpp::traits::input_parameter< mat >::type coor3D(coor3DSEXP);
-    Rcpp::traits::input_parameter< mat >::type colRGB(colRGBSEXP);
-    Rcpp::traits::input_parameter< int >::type compactness_level(compactness_levelSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type n_epochs(n_epochsSEXP);
-    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
-    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(transform_layout(W, coor2D, coor3D, colRGB, compactness_level, n_epochs, thread_no, seed));
-    return rcpp_result_gen;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _ACTIONet_transform_layout(SEXP WSEXP, SEXP coor2DSEXP, SEXP coor3DSEXP, SEXP colRGBSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_transform_layout_try(WSEXP, coor2DSEXP, coor3DSEXP, colRGBSEXP, compactness_levelSEXP, n_epochsSEXP, thread_noSEXP, seedSEXP));
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
-    if (rcpp_isLongjump_gen) {
-        Rcpp::internal::resumeJump(rcpp_result_gen);
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
 // sgd2_layout_weighted
 mat sgd2_layout_weighted(sp_mat& G, mat S_r, int t_max, double eps, int seed);
 static SEXP _ACTIONet_sgd2_layout_weighted_try(SEXP GSEXP, SEXP S_rSEXP, SEXP t_maxSEXP, SEXP epsSEXP, SEXP seedSEXP) {
@@ -3402,26 +3361,28 @@ RcppExport SEXP _ACTIONet_mat_mat_product_parallel(SEXP ASEXP, SEXP BSEXP, SEXP 
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// project_to_coordinate_2D
-mat project_to_coordinate_2D(sp_mat& W, mat coor2D, int compactness_level, unsigned int n_epochs, int thread_no, int seed);
-static SEXP _ACTIONet_project_to_coordinate_2D_try(SEXP WSEXP, SEXP coor2DSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+// transform_layout
+List transform_layout(sp_mat& G, sp_mat& inter_graph, mat reference_coordinates, int compactness_level, unsigned int n_epochs, int layout_alg, int thread_no, int seed);
+static SEXP _ACTIONet_transform_layout_try(SEXP GSEXP, SEXP inter_graphSEXP, SEXP reference_coordinatesSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< sp_mat& >::type W(WSEXP);
-    Rcpp::traits::input_parameter< mat >::type coor2D(coor2DSEXP);
+    Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
+    Rcpp::traits::input_parameter< sp_mat& >::type inter_graph(inter_graphSEXP);
+    Rcpp::traits::input_parameter< mat >::type reference_coordinates(reference_coordinatesSEXP);
     Rcpp::traits::input_parameter< int >::type compactness_level(compactness_levelSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type n_epochs(n_epochsSEXP);
+    Rcpp::traits::input_parameter< int >::type layout_alg(layout_algSEXP);
     Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(project_to_coordinate_2D(W, coor2D, compactness_level, n_epochs, thread_no, seed));
+    rcpp_result_gen = Rcpp::wrap(transform_layout(G, inter_graph, reference_coordinates, compactness_level, n_epochs, layout_alg, thread_no, seed));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_project_to_coordinate_2D(SEXP WSEXP, SEXP coor2DSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+RcppExport SEXP _ACTIONet_transform_layout(SEXP GSEXP, SEXP inter_graphSEXP, SEXP reference_coordinatesSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_project_to_coordinate_2D_try(WSEXP, coor2DSEXP, compactness_levelSEXP, n_epochsSEXP, thread_noSEXP, seedSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_transform_layout_try(GSEXP, inter_graphSEXP, reference_coordinatesSEXP, compactness_levelSEXP, n_epochsSEXP, layout_algSEXP, thread_noSEXP, seedSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -3570,7 +3531,6 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("mat(*unsigned_cluster_batch)(sp_mat,vec,Nullable<IntegerVector>,int)");
         signatures.insert("vec(*unsigned_cluster)(sp_mat,double,Nullable<IntegerVector>,int)");
         signatures.insert("mat(*Prune_PageRank)(mat&,double)");
-        signatures.insert("List(*transform_layout)(sp_mat&,mat,mat,mat,int,unsigned int,int,int)");
         signatures.insert("mat(*sgd2_layout_weighted)(sp_mat&,mat,int,double,int)");
         signatures.insert("mat(*sgd2_layout_weighted_convergent)(sp_mat&,mat,int,double,double,int,int)");
         signatures.insert("mat(*sgd2_layout_sparse_weighted)(sp_mat&,mat,int,int,double,int)");
@@ -3608,7 +3568,7 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("sp_mat(*spmat_spmat_product)(sp_mat&,sp_mat&)");
         signatures.insert("mat(*spmat_mat_product_parallel)(sp_mat&,mat&,int)");
         signatures.insert("mat(*mat_mat_product_parallel)(mat&,mat&,int)");
-        signatures.insert("mat(*project_to_coordinate_2D)(sp_mat&,mat,int,unsigned int,int,int)");
+        signatures.insert("List(*transform_layout)(sp_mat&,sp_mat&,mat,int,unsigned int,int,int,int)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -3668,7 +3628,6 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_unsigned_cluster_batch", (DL_FUNC)_ACTIONet_unsigned_cluster_batch_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_unsigned_cluster", (DL_FUNC)_ACTIONet_unsigned_cluster_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_Prune_PageRank", (DL_FUNC)_ACTIONet_Prune_PageRank_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_transform_layout", (DL_FUNC)_ACTIONet_transform_layout_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_sgd2_layout_weighted", (DL_FUNC)_ACTIONet_sgd2_layout_weighted_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_sgd2_layout_weighted_convergent", (DL_FUNC)_ACTIONet_sgd2_layout_weighted_convergent_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_sgd2_layout_sparse_weighted", (DL_FUNC)_ACTIONet_sgd2_layout_sparse_weighted_try);
@@ -3706,7 +3665,7 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_spmat_spmat_product", (DL_FUNC)_ACTIONet_spmat_spmat_product_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_spmat_mat_product_parallel", (DL_FUNC)_ACTIONet_spmat_mat_product_parallel_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_mat_mat_product_parallel", (DL_FUNC)_ACTIONet_mat_mat_product_parallel_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_project_to_coordinate_2D", (DL_FUNC)_ACTIONet_project_to_coordinate_2D_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_transform_layout", (DL_FUNC)_ACTIONet_transform_layout_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_RcppExport_validate", (DL_FUNC)_ACTIONet_RcppExport_validate);
     return R_NilValue;
 }
@@ -3765,7 +3724,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_unsigned_cluster_batch", (DL_FUNC) &_ACTIONet_unsigned_cluster_batch, 4},
     {"_ACTIONet_unsigned_cluster", (DL_FUNC) &_ACTIONet_unsigned_cluster, 4},
     {"_ACTIONet_Prune_PageRank", (DL_FUNC) &_ACTIONet_Prune_PageRank, 2},
-    {"_ACTIONet_transform_layout", (DL_FUNC) &_ACTIONet_transform_layout, 8},
     {"_ACTIONet_sgd2_layout_weighted", (DL_FUNC) &_ACTIONet_sgd2_layout_weighted, 5},
     {"_ACTIONet_sgd2_layout_weighted_convergent", (DL_FUNC) &_ACTIONet_sgd2_layout_weighted_convergent, 7},
     {"_ACTIONet_sgd2_layout_sparse_weighted", (DL_FUNC) &_ACTIONet_sgd2_layout_sparse_weighted, 6},
@@ -3803,7 +3761,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_spmat_spmat_product", (DL_FUNC) &_ACTIONet_spmat_spmat_product, 2},
     {"_ACTIONet_spmat_mat_product_parallel", (DL_FUNC) &_ACTIONet_spmat_mat_product_parallel, 3},
     {"_ACTIONet_mat_mat_product_parallel", (DL_FUNC) &_ACTIONet_mat_mat_product_parallel, 3},
-    {"_ACTIONet_project_to_coordinate_2D", (DL_FUNC) &_ACTIONet_project_to_coordinate_2D, 6},
+    {"_ACTIONet_transform_layout", (DL_FUNC) &_ACTIONet_transform_layout, 8},
     {"_ACTIONet_roll_var", (DL_FUNC) &_ACTIONet_roll_var, 1},
     {"_ACTIONet_fast_row_sums", (DL_FUNC) &_ACTIONet_fast_row_sums, 1},
     {"_ACTIONet_fast_column_sums", (DL_FUNC) &_ACTIONet_fast_column_sums, 1},

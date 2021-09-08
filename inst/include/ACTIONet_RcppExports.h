@@ -1137,27 +1137,6 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline List transform_layout(sp_mat& W, mat coor2D, mat coor3D, mat colRGB, int compactness_level = 50, unsigned int n_epochs = 500, int thread_no = 0, int seed = 0) {
-        typedef SEXP(*Ptr_transform_layout)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_transform_layout p_transform_layout = NULL;
-        if (p_transform_layout == NULL) {
-            validateSignature("List(*transform_layout)(sp_mat&,mat,mat,mat,int,unsigned int,int,int)");
-            p_transform_layout = (Ptr_transform_layout)R_GetCCallable("ACTIONet", "_ACTIONet_transform_layout");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_transform_layout(Shield<SEXP>(Rcpp::wrap(W)), Shield<SEXP>(Rcpp::wrap(coor2D)), Shield<SEXP>(Rcpp::wrap(coor3D)), Shield<SEXP>(Rcpp::wrap(colRGB)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
-    }
-
     inline mat sgd2_layout_weighted(sp_mat& G, mat S_r, int t_max = 30, double eps = .01, int seed = 0) {
         typedef SEXP(*Ptr_sgd2_layout_weighted)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_sgd2_layout_weighted p_sgd2_layout_weighted = NULL;
@@ -1935,17 +1914,17 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline mat project_to_coordinate_2D(sp_mat& W, mat coor2D, int compactness_level = 50, unsigned int n_epochs = 1000, int thread_no = 0, int seed = 0) {
-        typedef SEXP(*Ptr_project_to_coordinate_2D)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_project_to_coordinate_2D p_project_to_coordinate_2D = NULL;
-        if (p_project_to_coordinate_2D == NULL) {
-            validateSignature("mat(*project_to_coordinate_2D)(sp_mat&,mat,int,unsigned int,int,int)");
-            p_project_to_coordinate_2D = (Ptr_project_to_coordinate_2D)R_GetCCallable("ACTIONet", "_ACTIONet_project_to_coordinate_2D");
+    inline List transform_layout(sp_mat& G, sp_mat& inter_graph, mat reference_coordinates, int compactness_level = 50, unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0) {
+        typedef SEXP(*Ptr_transform_layout)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_transform_layout p_transform_layout = NULL;
+        if (p_transform_layout == NULL) {
+            validateSignature("List(*transform_layout)(sp_mat&,sp_mat&,mat,int,unsigned int,int,int,int)");
+            p_transform_layout = (Ptr_transform_layout)R_GetCCallable("ACTIONet", "_ACTIONet_transform_layout");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_project_to_coordinate_2D(Shield<SEXP>(Rcpp::wrap(W)), Shield<SEXP>(Rcpp::wrap(coor2D)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
+            rcpp_result_gen = p_transform_layout(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(inter_graph)), Shield<SEXP>(Rcpp::wrap(reference_coordinates)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(layout_alg)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -1953,7 +1932,7 @@ namespace ACTIONet {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<mat >(rcpp_result_gen);
+        return Rcpp::as<List >(rcpp_result_gen);
     }
 
 }

@@ -1500,22 +1500,6 @@ mat Prune_PageRank(mat &U, double density = 1.0)
 }
 
 // [[Rcpp::export]]
-List transform_layout(sp_mat &W, mat coor2D, mat coor3D, mat colRGB,
-                      int compactness_level = 50, unsigned int n_epochs = 500,
-                      int thread_no = 0, int seed = 0)
-{
-  field<mat> res = ACTIONet::transform_layout(
-      W, coor2D, coor3D, colRGB, compactness_level, n_epochs, thread_no, seed);
-
-  List out_list;
-  out_list["coordinates"] = res(0);
-  out_list["coordinates_3D"] = res(1);
-  out_list["colors"] = res(2);
-
-  return out_list;
-}
-
-// [[Rcpp::export]]
 mat sgd2_layout_weighted(sp_mat &G, mat S_r, int t_max = 30, double eps = .01,
                          int seed = 0)
 {
@@ -2429,36 +2413,18 @@ mat mat_mat_product_parallel(mat &A, mat &B, int thread_no)
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-mat project_to_coordinate_2D(sp_mat &W, mat coor2D,
-                             int compactness_level = 50,
-                             unsigned int n_epochs = 1000, int thread_no = 0,
-                             int seed = 0)
+List transform_layout(sp_mat &G, sp_mat &inter_graph, mat reference_coordinates, int compactness_level = 50,
+                      unsigned int n_epochs = 500,
+                      int layout_alg = 0, int thread_no = 0,
+                      int seed = 0)
 {
-  mat coors = ACTIONet::project_to_coordinate_2D(W, coor2D,
-                                                 compactness_level,
-                                                 n_epochs, thread_no,
-                                                 seed);
+  field<mat> res = ACTIONet::transform_layout(G, inter_graph, reference_coordinates, compactness_level,
+                                              n_epochs, layout_alg, thread_no, seed);
 
-  return (coors);
+  List out_list;
+  out_list["coordinates"] = res(0);
+  out_list["coordinates_3D"] = res(1);
+  out_list["colors"] = res(2);
+
+  return (out_list);
 }
-
-/*
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::export]]
-arma::mat dgemm_sparse // returns y = A*x or variants
-    (
-        const arma::sp_mat &A,
-        const arma::mat &X,
-        int at = 0, // if true: trans(A)  if false: A
-        int ac = 0, // if true: conj(A)   if false: A. ignored if A real
-        int xt = 0, // if true: trans(x)  if false: x
-        int xc = 0, // if true: conj(x)   if false: x. ignored if x real
-        int yt = 0, // if true: trans(y)  if false: y
-        int yc = 0  // if true: conj(y)   if false: y. ignored if y real
-    )
-{
-  mat Y = sfmult(A, X, at, ac, xt, xc, yt, yc);
-
-  return (Y);
-}
-*/
