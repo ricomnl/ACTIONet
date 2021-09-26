@@ -12,7 +12,7 @@ RUN apt-get update --fix-missing && \
 
 
 COPY files/* /tmp/
-RUN mkdir /tmp/Makevars /home/$DOCKER_USER/.R && mv /tmp/Makevars /home/$DOCKER_USER/.R/Makevars && mv /tmp/Rprofile.site /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site
+RUN mkdir /home/$DOCKER_USER/.R && mv /tmp/Makevars /home/$DOCKER_USER/.R/Makevars && mv /tmp/Rprofile.site /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site
 
 # Install R packages
 RUN Rscript --quiet /tmp/install_actionet_deps.R
