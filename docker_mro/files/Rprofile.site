@@ -1,0 +1,61 @@
+if (!identical(system.file(package="RevoUtils"), "")) {
+    Revo.version <- RevoUtils:::makeRevoVersion()
+    repos.date <- utils::packageDescription("RevoUtils")$MRANDate
+}
+
+if (!identical(system.file(package="RevoScaleR"), "")) {
+    if (.Platform$OS.type == "windows"){
+        defaultRevoNodePath <- paste("C:\\Program Files\\Microsoft\\MRO-for-RRE\\", paste(Revo.version$major, substr(Revo.version$minor,1,1), sep="."), sep="")
+        defaultRNodePath <- utils::shortPathName(R.home())
+    } else {
+        defaultRevoNodePath <- paste("/usr/lib64/MRS-", paste(Revo.version$major, substr(Revo.version$minor,1,1), sep="."), sep="")
+        defaultRNodePath <- paste(defaultRevoNodePath, "/R-", paste(R.version$major, R.version$minor, sep="."), "/lib64/R", sep="")
+    }
+}
+
+local(
+{
+	# set a CRAN mirror
+	r <- getOption("repos")
+	if (.Platform$OS.type == "unix") {
+		options(download.file.method = "curl")
+	}
+	r["CRAN"] <- RevoUtils::getRevoRepos()
+	options(repos=r)
+
+    MRS.is.client <- RevoUtils:::isMicrosoftRClient()
+    # set default packages
+	# For MicrosoftML, check to see if this is a supported platform (Windows, RHEL/Cent 7, Ubuntu 14.04/16.04)
+	isMMLSupported <- FALSE
+	if (identical(.Platform$OS.type,"windows")) {
+		isMMLSupported <- TRUE
+	}
+	if (identical(.Platform$OS.type, "unix") && length(grep("Ubuntu",Sys.info()["version"]))){
+		if (file.exists("/etc/lsb-release")){
+			UbuntuReleaseInfo <- scan("/etc/lsb-release", what="", sep="\n", quiet=TRUE)
+			if (identical(UbuntuReleaseInfo[2], "DISTRIB_RELEASE=14.04") || identical(UbuntuReleaseInfo[2], "DISTRIB_RELEASE=16.04")) {
+				isMMLSupported <- TRUE
+			}
+		}
+	}
+	if ( identical(.Platform$OS.type, "unix") && length(grep("el7.x86_64",Sys.info()["release"]))){
+		isMMLSupported <- TRUE
+	}
+	
+	if (!identical(system.file(package="RevoScaleR") , "")){
+        options(defaultPackages=c(getOption("defaultPackages"), "rpart", "lattice", "RevoScaleR", 
+            if(!identical(system.file(package="mrsdeploy"), "") && identical(.Platform$OS, "windows") && !identical(Sys.getenv("MRS_IN_DATABASE_HOST_PLATFORM"), "1")) "mrsdeploy",
+			# we have MicrosoftML package
+			if(!identical(system.file(package="MicrosoftML"),"") && isMMLSupported) "MicrosoftML", 
+			"RevoMods", "RevoUtils", "RevoUtilsMath"), mleap.home = Sys.getenv("MLEAP_HOME"))
+        if (nchar(hostName <- Sys.getenv("REVOHADOOPHOST")) && nchar(portNumber <- Sys.getenv("REVOHADOOPPORT")))
+		{
+			 RevoScaleR::rxHdfsConnect(hostName=hostName, portNumber=as.numeric(portNumber))
+		}
+	} else {
+		options(defaultPackages=c(getOption("defaultPackages"), "RevoUtils"))
+	}
+}
+) 
+
+options("download.file.method" = "libcurl")

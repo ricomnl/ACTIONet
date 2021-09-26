@@ -4,15 +4,22 @@ ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS="true"
 ENV DISABLE_AUTH="true"
 
 # Install dependencies
-RUN apt-get install -y libhdf5-dev libsuitesparse-dev
+RUN apt-get update --fix-missing && \
+    apt-get install -yq libhdf5-dev libsuitesparse-dev libgit2-dev && \
+    apt-get update && \
+    apt-get clean && \
+    apt autoremove -y
 
-# Install R version 
+
 COPY files/* /tmp/
 
 # EULA statement interferes with compilation of packages
-RUN head /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site -n -7 > profile.txt && echo 'options("download.file.method" = "libcurl")' >> profile.txt && mv profile.txt /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site
-RUN Rscript --slave /tmp/install_actionet_deps.R
-RUN Rscript --slave /tmp/install_actionet.R
+RUN mv /tmp/Rprofile.site /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site
+RUN mv /tmp/Makevars /home/$DOCKER_USER/.R/Makevars
+
+# Install R packages
+RUN Rscript --quiet /tmp/install_actionet_deps.R
+RUN Rscript --quiet /tmp/install_actionet.R
 
 EXPOSE 8787
 WORKDIR /

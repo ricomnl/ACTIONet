@@ -17,9 +17,8 @@ Maintainer: Shahin Mohammadi <shahin.mohammadi@gmail.com>
 Description:
 License: GPL (>= 2)
 URL: https://github.com/shmohammadi86/ACTIONet
-Depends: R (>= 4.0.0), ACTIONetExperiment, Matrix, S4Vectors, BiocGenerics, SummarizedExperiment, scran, scater, batchelor, BiocParallel, hdf5r, ComplexHeatmap
-Imports: Rcpp, RcppArmadillo, ACTIONetExperiment,R.utils, stringr, ggplot2, ggpubr, ggrepel, plotly, RColorBrewer, rmdformats, pals, seriation, networkD3, dplyr, grid, htmlwidgets, htmltools, matrixStats, gplots, ComplexHeatmap
-Suggests: metap, multtest, ComplexHeatmap, limma, ineq
+Depends: R (>= 4.0.0), Rcpp, RcppArmadillo, ACTIONetExperiment, ggplot2, ggrepel, gplots, plotly, ComplexHeatmap
+Imports: Rcpp, RcppArmadillo, ACTIONetExperiment, stringr, ggplot2, ggrepel, gplot, plotly, seriation, matrixStats, ComplexHeatmap
 LinkingTo: Rcpp,RcppArmadillo
 biocViews: ACTION, ACTIONet, ArchetypalAnalysis, GeneExpression, RNASeq, SingleCell, Transcriptomics
 Remotes: shmohammadi86/ACTIONetExperiment,shmohammadi86/SCINET,immunogenomics/harmony
