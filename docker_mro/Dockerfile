@@ -9,6 +9,8 @@ RUN apt-get install -y libhdf5-dev libsuitesparse-dev
 # Install R version 
 COPY files/* /tmp/
 
+# EULA statement interferes with compilation of packages
+RUN head /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site -n -7 > profile.txt && echo 'options("download.file.method" = "libcurl")' >> profile.txt && mv profile.txt /opt/microsoft/ropen/4.0.2/lib64/R/etc/Rprofile.site
 RUN Rscript --slave /tmp/install_actionet_deps.R
 RUN Rscript --slave /tmp/install_actionet.R
 
