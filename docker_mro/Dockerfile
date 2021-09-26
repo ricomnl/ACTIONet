@@ -9,8 +9,9 @@ RUN apt-get install -y libhdf5-dev libsuitesparse-dev
 # Install R version 
 COPY files/* /tmp/
 
-RUN Rscript /tmp/install_actionet_deps.R
-RUN Rscript /tmp/install_actionet.R
+RUN Rscript --slave /tmp/install_actionet_deps.R
+RUN Rscript --slave /tmp/install_actionet.R
+/bin/sh -c mv MRO_EULA.txt MRO_EULA.txt.temp
 
 EXPOSE 8787
 WORKDIR /
