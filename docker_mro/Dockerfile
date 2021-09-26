@@ -11,7 +11,6 @@ COPY files/* /tmp/
 
 RUN Rscript --slave /tmp/install_actionet_deps.R
 RUN Rscript --slave /tmp/install_actionet.R
-/bin/sh -c mv MRO_EULA.txt MRO_EULA.txt.temp
 
 EXPOSE 8787
 WORKDIR /
