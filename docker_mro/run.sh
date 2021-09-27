@@ -1,5 +1,5 @@
 #!/bin/bash
-export PARENT_DOCKER=shmohammadi86/actionet:mini
+export PARENT_DOCKER=shmohammadi86/actionet:mro
 export REGISTRY=shmohammadi86
 export IMAGE_NAME=actionet
 export VERSION=mro
