@@ -2447,3 +2447,11 @@ mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alph
 
   return (X);
 }
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat compute_marker_aggregate_stats_nonparametric(mat &S, sp_mat &marker_mat, int thread_no = 0)
+{
+  mat X = ACTIONet::compute_marker_aggregate_stats_nonparametric(S, marker_mat, thread_no);
+  return (X);
+}

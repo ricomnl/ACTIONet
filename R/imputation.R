@@ -73,7 +73,7 @@ impute.genes.combined <- function(ace,
         S_r <- Matrix::t(colMaps(ace)$ACTION)
         G <- ace$ACTIONet
         P <- normalize_adj(G, 0)
-        S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = alpha_val, max_it = diffusion_iters)
+        S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = alpha_val, max_it = diffusion_iters, thread_no = thread_no)
     } else {
         S_r_norm <- colMaps(ace)[["ACTIONnorm"]]
     }

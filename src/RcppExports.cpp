@@ -1520,44 +1520,6 @@ RcppExport SEXP _ACTIONet_compute_archetype_core_centrality(SEXP GSEXP, SEXP sam
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// compute_network_diffusion
-mat compute_network_diffusion(sp_mat& G, sp_mat& X0, int thread_no, double alpha, int max_it);
-static SEXP _ACTIONet_compute_network_diffusion_try(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
-    Rcpp::traits::input_parameter< sp_mat& >::type X0(X0SEXP);
-    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< int >::type max_it(max_itSEXP);
-    rcpp_result_gen = Rcpp::wrap(compute_network_diffusion(G, X0, thread_no, alpha, max_it));
-    return rcpp_result_gen;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _ACTIONet_compute_network_diffusion(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP) {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_compute_network_diffusion_try(GSEXP, X0SEXP, thread_noSEXP, alphaSEXP, max_itSEXP));
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
-    if (rcpp_isLongjump_gen) {
-        Rcpp::internal::resumeJump(rcpp_result_gen);
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
 // compute_network_diffusion_fast
 mat compute_network_diffusion_fast(sp_mat& G, sp_mat& X0, int thread_no, double alpha, int max_it);
 static SEXP _ACTIONet_compute_network_diffusion_fast_try(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP) {
@@ -3476,9 +3438,9 @@ RcppExport SEXP _ACTIONet_compute_network_diffusion_Chebyshev(SEXP PSEXP, SEXP X
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// compute_network_diffusion_final
-mat compute_network_diffusion_final(sp_mat& G, mat& X0, int thread_no, double alpha, int max_it, double res_threshold, int norm_type);
-static SEXP _ACTIONet_compute_network_diffusion_final_try(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP, SEXP res_thresholdSEXP, SEXP norm_typeSEXP) {
+// compute_network_diffusion
+mat compute_network_diffusion(sp_mat& G, mat& X0, int thread_no, double alpha, int max_it, double res_threshold, int norm_type);
+static SEXP _ACTIONet_compute_network_diffusion_try(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP, SEXP res_thresholdSEXP, SEXP norm_typeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
@@ -3488,15 +3450,51 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type max_it(max_itSEXP);
     Rcpp::traits::input_parameter< double >::type res_threshold(res_thresholdSEXP);
     Rcpp::traits::input_parameter< int >::type norm_type(norm_typeSEXP);
-    rcpp_result_gen = Rcpp::wrap(compute_network_diffusion_final(G, X0, thread_no, alpha, max_it, res_threshold, norm_type));
+    rcpp_result_gen = Rcpp::wrap(compute_network_diffusion(G, X0, thread_no, alpha, max_it, res_threshold, norm_type));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_compute_network_diffusion_final(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP, SEXP res_thresholdSEXP, SEXP norm_typeSEXP) {
+RcppExport SEXP _ACTIONet_compute_network_diffusion(SEXP GSEXP, SEXP X0SEXP, SEXP thread_noSEXP, SEXP alphaSEXP, SEXP max_itSEXP, SEXP res_thresholdSEXP, SEXP norm_typeSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_compute_network_diffusion_final_try(GSEXP, X0SEXP, thread_noSEXP, alphaSEXP, max_itSEXP, res_thresholdSEXP, norm_typeSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_compute_network_diffusion_try(GSEXP, X0SEXP, thread_noSEXP, alphaSEXP, max_itSEXP, res_thresholdSEXP, norm_typeSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// compute_marker_aggregate_stats_nonparametric
+mat compute_marker_aggregate_stats_nonparametric(mat& S, sp_mat& marker_mat, int thread_no);
+static SEXP _ACTIONet_compute_marker_aggregate_stats_nonparametric_try(SEXP SSEXP, SEXP marker_matSEXP, SEXP thread_noSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< mat& >::type S(SSEXP);
+    Rcpp::traits::input_parameter< sp_mat& >::type marker_mat(marker_matSEXP);
+    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_marker_aggregate_stats_nonparametric(S, marker_mat, thread_no));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _ACTIONet_compute_marker_aggregate_stats_nonparametric(SEXP SSEXP, SEXP marker_matSEXP, SEXP thread_noSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_ACTIONet_compute_marker_aggregate_stats_nonparametric_try(SSEXP, marker_matSEXP, thread_noSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -3633,7 +3631,6 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("List(*compute_cluster_feature_specificity_full)(mat&,uvec,int)");
         signatures.insert("uvec(*compute_core_number)(sp_mat&)");
         signatures.insert("vec(*compute_archetype_core_centrality)(sp_mat&,uvec)");
-        signatures.insert("mat(*compute_network_diffusion)(sp_mat&,sp_mat&,int,double,int)");
         signatures.insert("mat(*compute_network_diffusion_fast)(sp_mat&,sp_mat&,int,double,int)");
         signatures.insert("mat(*compute_network_diffusion_direct)(sp_mat&,sp_mat&,int,double)");
         signatures.insert("sp_mat(*compute_sparse_network_diffusion)(sp_mat&,sp_mat&,double,double,double,int)");
@@ -3685,7 +3682,8 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("List(*transform_layout)(sp_mat&,sp_mat&,mat,int,unsigned int,int,int,int)");
         signatures.insert("sp_mat(*normalize_adj)(sp_mat&,int)");
         signatures.insert("mat(*compute_network_diffusion_Chebyshev)(sp_mat&,mat&,int,double,int,double)");
-        signatures.insert("mat(*compute_network_diffusion_final)(sp_mat&,mat&,int,double,int,double,int)");
+        signatures.insert("mat(*compute_network_diffusion)(sp_mat&,mat&,int,double,int,double,int)");
+        signatures.insert("mat(*compute_marker_aggregate_stats_nonparametric)(mat&,sp_mat&,int)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -3733,7 +3731,6 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_cluster_feature_specificity_full", (DL_FUNC)_ACTIONet_compute_cluster_feature_specificity_full_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_core_number", (DL_FUNC)_ACTIONet_compute_core_number_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_archetype_core_centrality", (DL_FUNC)_ACTIONet_compute_archetype_core_centrality_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion", (DL_FUNC)_ACTIONet_compute_network_diffusion_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_fast", (DL_FUNC)_ACTIONet_compute_network_diffusion_fast_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_direct", (DL_FUNC)_ACTIONet_compute_network_diffusion_direct_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_sparse_network_diffusion", (DL_FUNC)_ACTIONet_compute_sparse_network_diffusion_try);
@@ -3785,7 +3782,8 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_transform_layout", (DL_FUNC)_ACTIONet_transform_layout_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_normalize_adj", (DL_FUNC)_ACTIONet_normalize_adj_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_Chebyshev", (DL_FUNC)_ACTIONet_compute_network_diffusion_Chebyshev_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_final", (DL_FUNC)_ACTIONet_compute_network_diffusion_final_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion", (DL_FUNC)_ACTIONet_compute_network_diffusion_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_nonparametric", (DL_FUNC)_ACTIONet_compute_marker_aggregate_stats_nonparametric_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_RcppExport_validate", (DL_FUNC)_ACTIONet_RcppExport_validate);
     return R_NilValue;
 }
@@ -3832,7 +3830,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_compute_cluster_feature_specificity_full", (DL_FUNC) &_ACTIONet_compute_cluster_feature_specificity_full, 3},
     {"_ACTIONet_compute_core_number", (DL_FUNC) &_ACTIONet_compute_core_number, 1},
     {"_ACTIONet_compute_archetype_core_centrality", (DL_FUNC) &_ACTIONet_compute_archetype_core_centrality, 2},
-    {"_ACTIONet_compute_network_diffusion", (DL_FUNC) &_ACTIONet_compute_network_diffusion, 5},
     {"_ACTIONet_compute_network_diffusion_fast", (DL_FUNC) &_ACTIONet_compute_network_diffusion_fast, 5},
     {"_ACTIONet_compute_network_diffusion_direct", (DL_FUNC) &_ACTIONet_compute_network_diffusion_direct, 4},
     {"_ACTIONet_compute_sparse_network_diffusion", (DL_FUNC) &_ACTIONet_compute_sparse_network_diffusion, 6},
@@ -3884,7 +3881,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_transform_layout", (DL_FUNC) &_ACTIONet_transform_layout, 8},
     {"_ACTIONet_normalize_adj", (DL_FUNC) &_ACTIONet_normalize_adj, 2},
     {"_ACTIONet_compute_network_diffusion_Chebyshev", (DL_FUNC) &_ACTIONet_compute_network_diffusion_Chebyshev, 6},
-    {"_ACTIONet_compute_network_diffusion_final", (DL_FUNC) &_ACTIONet_compute_network_diffusion_final, 7},
+    {"_ACTIONet_compute_network_diffusion", (DL_FUNC) &_ACTIONet_compute_network_diffusion, 7},
+    {"_ACTIONet_compute_marker_aggregate_stats_nonparametric", (DL_FUNC) &_ACTIONet_compute_marker_aggregate_stats_nonparametric, 3},
     {"_ACTIONet_roll_var", (DL_FUNC) &_ACTIONet_roll_var, 1},
     {"_ACTIONet_fast_row_sums", (DL_FUNC) &_ACTIONet_fast_row_sums, 1},
     {"_ACTIONet_fast_column_sums", (DL_FUNC) &_ACTIONet_fast_column_sums, 1},

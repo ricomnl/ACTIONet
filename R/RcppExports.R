@@ -338,14 +338,6 @@ NULL
 #' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
 NULL
 
-#' Computes network diffusion over a given network, starting with an arbitrarty
-NULL
-
-#'
-#' @param G Input graph
-#' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
-NULL
-
 #' Computes sparse network diffusion over a given network, starting with an
 NULL
 
@@ -476,6 +468,14 @@ NULL
 #' S = logcounts(sce)
 #' irlba.out = irlba::prcomp_irlba(S, n = 50, retx = TRUE, center = T)
 #' red.out = PCA2ACTIONred_full(S, irlba.out$x, irlba.out$rotation,
+NULL
+
+#' Computes network diffusion over a given network, starting with an arbitrarty
+NULL
+
+#'
+#' @param G Input graph
+#' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
 NULL
 
 set_seed <- function(seed) {
@@ -817,17 +817,6 @@ compute_archetype_core_centrality <- function(G, sample_assignments) {
 #' G = colNets(ace)$ACTIONet
 #' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
 #' smoothed.expression = compute_network_diffusion(G, gene.expression)
-compute_network_diffusion <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 3L) {
-    .Call(`_ACTIONet_compute_network_diffusion`, G, X0, thread_no, alpha, max_it)
-}
-
-#'
-#' @return Matrix of diffusion scores
-#'
-#' @examples
-#' G = colNets(ace)$ACTIONet
-#' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
-#' smoothed.expression = compute_network_diffusion(G, gene.expression)
 compute_network_diffusion_fast <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 3L) {
     .Call(`_ACTIONet_compute_network_diffusion_fast`, G, X0, thread_no, alpha, max_it)
 }
@@ -1096,8 +1085,19 @@ compute_network_diffusion_Chebyshev <- function(P, X0, thread_no = 0L, alpha = 0
     .Call(`_ACTIONet_compute_network_diffusion_Chebyshev`, P, X0, thread_no, alpha, max_it, res_threshold)
 }
 
-compute_network_diffusion_final <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8, norm_type = 1L) {
-    .Call(`_ACTIONet_compute_network_diffusion_final`, G, X0, thread_no, alpha, max_it, res_threshold, norm_type)
+#'
+#' @return Matrix of diffusion scores
+#'
+#' @examples
+#' G = colNets(ace)$ACTIONet
+#' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
+#' smoothed.expression = compute_network_diffusion(G, gene.expression)
+compute_network_diffusion <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8, norm_type = 1L) {
+    .Call(`_ACTIONet_compute_network_diffusion`, G, X0, thread_no, alpha, max_it, res_threshold, norm_type)
+}
+
+compute_marker_aggregate_stats_nonparametric <- function(S, marker_mat, thread_no = 0L) {
+    .Call(`_ACTIONet_compute_marker_aggregate_stats_nonparametric`, S, marker_mat, thread_no)
 }
 
 roll_var <- function(X) {

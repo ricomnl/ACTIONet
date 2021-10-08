@@ -885,27 +885,6 @@ namespace ACTIONet {
         return Rcpp::as<vec >(rcpp_result_gen);
     }
 
-    inline mat compute_network_diffusion(sp_mat& G, sp_mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 3) {
-        typedef SEXP(*Ptr_compute_network_diffusion)(SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_compute_network_diffusion p_compute_network_diffusion = NULL;
-        if (p_compute_network_diffusion == NULL) {
-            validateSignature("mat(*compute_network_diffusion)(sp_mat&,sp_mat&,int,double,int)");
-            p_compute_network_diffusion = (Ptr_compute_network_diffusion)R_GetCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion");
-        }
-        RObject rcpp_result_gen;
-        {
-            RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_compute_network_diffusion(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(X0)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(max_it)));
-        }
-        if (rcpp_result_gen.inherits("interrupted-error"))
-            throw Rcpp::internal::InterruptedException();
-        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
-            throw Rcpp::LongjumpException(rcpp_result_gen);
-        if (rcpp_result_gen.inherits("try-error"))
-            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<mat >(rcpp_result_gen);
-    }
-
     inline mat compute_network_diffusion_fast(sp_mat& G, sp_mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 3) {
         typedef SEXP(*Ptr_compute_network_diffusion_fast)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_compute_network_diffusion_fast p_compute_network_diffusion_fast = NULL;
@@ -1977,17 +1956,38 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline mat compute_network_diffusion_final(sp_mat& G, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1) {
-        typedef SEXP(*Ptr_compute_network_diffusion_final)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_compute_network_diffusion_final p_compute_network_diffusion_final = NULL;
-        if (p_compute_network_diffusion_final == NULL) {
-            validateSignature("mat(*compute_network_diffusion_final)(sp_mat&,mat&,int,double,int,double,int)");
-            p_compute_network_diffusion_final = (Ptr_compute_network_diffusion_final)R_GetCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_final");
+    inline mat compute_network_diffusion(sp_mat& G, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1) {
+        typedef SEXP(*Ptr_compute_network_diffusion)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_compute_network_diffusion p_compute_network_diffusion = NULL;
+        if (p_compute_network_diffusion == NULL) {
+            validateSignature("mat(*compute_network_diffusion)(sp_mat&,mat&,int,double,int,double,int)");
+            p_compute_network_diffusion = (Ptr_compute_network_diffusion)R_GetCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_compute_network_diffusion_final(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(X0)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(max_it)), Shield<SEXP>(Rcpp::wrap(res_threshold)), Shield<SEXP>(Rcpp::wrap(norm_type)));
+            rcpp_result_gen = p_compute_network_diffusion(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(X0)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(max_it)), Shield<SEXP>(Rcpp::wrap(res_threshold)), Shield<SEXP>(Rcpp::wrap(norm_type)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
+    inline mat compute_marker_aggregate_stats_nonparametric(mat& S, sp_mat& marker_mat, int thread_no = 0) {
+        typedef SEXP(*Ptr_compute_marker_aggregate_stats_nonparametric)(SEXP,SEXP,SEXP);
+        static Ptr_compute_marker_aggregate_stats_nonparametric p_compute_marker_aggregate_stats_nonparametric = NULL;
+        if (p_compute_marker_aggregate_stats_nonparametric == NULL) {
+            validateSignature("mat(*compute_marker_aggregate_stats_nonparametric)(mat&,sp_mat&,int)");
+            p_compute_marker_aggregate_stats_nonparametric = (Ptr_compute_marker_aggregate_stats_nonparametric)R_GetCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_nonparametric");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_marker_aggregate_stats_nonparametric(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(marker_mat)), Shield<SEXP>(Rcpp::wrap(thread_no)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

@@ -383,3 +383,48 @@ map.cell.scores.from.archetype.enrichment <- function(ace,
 
   return(cell.enrichment.mat)
 }
+
+#' Infer cell annotations from imputed gene expression for all cells.
+#'
+#' @param ace ACTIONetExperiment object
+#' @param markers A named list of marker genes.
+#' @param features_use A vector of features of length NROW(ace) or the name of a column of rowData(ace) containing the genes given in 'markers'.
+#' @param alpha_val, diffusion_iters: Random-walk parameters for post imputation.
+#' @param thread_no Number of parallel threads used for gene imputation.
+#' @param net_slot Name of slot in colNets(ace) containing the network to use for gene expression imputation (default="ACTIONet").
+#' @return A named list: \itemize{
+#' \item Label: Inferred cell type labels
+#' \item Confidence: Confidence of inferred labels
+#' \item Enrichment: Cell type score matrix.
+#' }
+#'
+#' @examples
+#' cell.annot <- annotate.cells.using.markers.preimputed(ace, markers)
+#' @export
+annotate.cells.using.markers.preimputed <- function(ace, markers, alpha_val = 0.9, diffusion_iters = 5, thread_no = 0, features_use = NULL, net_slot = "ACTIONet") {
+  features_use <- ACTIONet:::.preprocess_annotation_features(ace, features_use)
+  marker_mat <- ACTIONet:::.preprocess_annotation_markers(markers, features_use)
+  mask <- fastRowSums(abs(marker_mat)) != 0
+  marker_mat <- marker_mat[mask, ]
+  subS <- ACTIONet:::impute.genes.combined(ace, rownames(marker_mat), thread_no = thread_no)
+
+  marker_stats <- ACTIONet::compute_marker_aggregate_stats_nonparametric(subS, marker_mat, thread_no = thread_no)
+
+  if (alpha_val != 0) {
+    G <- colNets(ace)[[net_slot]]
+    P <- normalize_adj(G, 0)
+    marker_stats <- compute_network_diffusion_Chebyshev(P, marker_stats, alpha = alpha_val, max_it = diffusion_iters, thread_no = thread_no)
+  }
+
+  colnames(marker_stats) <- colnames(marker_mat)
+  marker_stats[!is.finite(marker_stats)] <- 0
+  annots <- colnames(marker_mat)[apply(marker_stats, 1, which.max)]
+  conf <- apply(marker_stats, 1, max)
+  conf <- -log10(p.adjust(pnorm(conf, lower.tail = F), method = "fdr"))
+  annots.masked <- annots
+  annots.masked[conf < 2] <- "?"
+
+  out <- list(Label = annots, Confidence = conf, Enrichment = marker_stats, Label.masked = annots.masked)
+
+  return(out)
+}
