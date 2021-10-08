@@ -118,7 +118,7 @@ run.ACTIONet <- function(ace,
 
 
   # Layout ACTIONet
-  initial_coordinates <- .tscalet(S_r_norm)
+  initial_coordinates <- .tscalet(t(S_r_norm))
   colMaps(ace)[["ACTIONred"]] <- Matrix::t(initial_coordinates[1:3, ])
   colMapTypes(ace)[["ACTIONred"]] <- "embedding"
 
