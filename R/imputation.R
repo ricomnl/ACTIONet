@@ -69,7 +69,16 @@ impute.genes.combined <- function(ace,
                                   alpha_val = 0,
                                   thread_no = 0,
                                   diffusion_iters = 5) {
-    if (alpha_val != 0) {
+    if (!("ACTION_V" %in% names(rowMaps(ace)))) {
+        warning(sprintf("ACTION_V does not exist in rowMaps(ace)."))
+        return()
+    } else {
+        V <- rowMaps(ace)$ACTION_V
+        genes <- intersect(genes, rownames(V))
+        subV <- V[genes, ]
+    }
+
+    if ((alpha_val != 0) | !("ACTIONnorm" %in% names(colMaps(ace)))) {
         S_r <- Matrix::t(colMaps(ace)$ACTION)
         G <- ace$ACTIONet
         P <- normalize_adj(G, 0)
@@ -77,12 +86,6 @@ impute.genes.combined <- function(ace,
     } else {
         S_r_norm <- colMaps(ace)[["ACTIONnorm"]]
     }
-
-    V <- rowMaps(ace)$ACTION_V
-
-    genes <- intersect(genes, rownames(V))
-    subV <- V[genes, ]
-
     imputed.expression <- subV %*% t(S_r_norm)
 
     return(imputed.expression)
