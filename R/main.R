@@ -111,13 +111,10 @@ run.ACTIONet <- function(ace,
 
   # Smooth Sr
   P <- normalize_adj(G, 0)
-  S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = 0.9, max_it = 5)
+  S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = 0.9, max_it = 5, thread_no = thread_no)
   colMaps(ace)[["ACTIONnorm"]] <- S_r_norm
   colMapTypes(ace)[["ACTIONnorm"]] <- "internal"
 
-
-  P <- normalize_adj(G, 0)
-  S_r_norm <- compute_network_diffusion_Chebyshev(P, S_r, alpha = 0.9, max_it = 5, thread_no = thread_no)
 
 
   # Layout ACTIONet
