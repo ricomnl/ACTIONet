@@ -109,9 +109,19 @@ run.ACTIONet <- function(ace,
   )
   colNets(ace)[[net_slot_out]] <- G
 
+  # Smooth Sr
+  P <- normalize_adj(G, 0)
+  S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = 0.9, max_it = 5)
+  colMaps(ace)[["ACTIONnorm"]] <- S_r_norm
+  colMapTypes(ace)[["ACTIONnorm"]] <- "internal"
+
+
+  P <- normalize_adj(G, 0)
+  S_r_norm <- compute_network_diffusion_Chebyshev(P, S_r, alpha = 0.9, max_it = 5, thread_no = thread_no)
+
 
   # Layout ACTIONet
-  initial_coordinates <- .tscalet(S_r)
+  initial_coordinates <- .tscalet(S_r_norm)
   colMaps(ace)[["ACTIONred"]] <- Matrix::t(initial_coordinates[1:3, ])
   colMapTypes(ace)[["ACTIONred"]] <- "embedding"
 

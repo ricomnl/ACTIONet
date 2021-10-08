@@ -1088,6 +1088,18 @@ transform_layout <- function(G, inter_graph, reference_coordinates, compactness_
     .Call(`_ACTIONet_transform_layout`, G, inter_graph, reference_coordinates, compactness_level, n_epochs, layout_alg, thread_no, seed)
 }
 
+normalize_adj <- function(G, norm_type = 1L) {
+    .Call(`_ACTIONet_normalize_adj`, G, norm_type)
+}
+
+compute_network_diffusion_Chebyshev <- function(P, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8) {
+    .Call(`_ACTIONet_compute_network_diffusion_Chebyshev`, P, X0, thread_no, alpha, max_it, res_threshold)
+}
+
+compute_network_diffusion_final <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8, norm_type = 1L) {
+    .Call(`_ACTIONet_compute_network_diffusion_final`, G, X0, thread_no, alpha, max_it, res_threshold, norm_type)
+}
+
 roll_var <- function(X) {
     .Call(`_ACTIONet_roll_var`, X)
 }

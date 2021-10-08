@@ -1935,6 +1935,69 @@ namespace ACTIONet {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
+    inline sp_mat normalize_adj(sp_mat& G, int norm_type = 1) {
+        typedef SEXP(*Ptr_normalize_adj)(SEXP,SEXP);
+        static Ptr_normalize_adj p_normalize_adj = NULL;
+        if (p_normalize_adj == NULL) {
+            validateSignature("sp_mat(*normalize_adj)(sp_mat&,int)");
+            p_normalize_adj = (Ptr_normalize_adj)R_GetCCallable("ACTIONet", "_ACTIONet_normalize_adj");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_normalize_adj(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(norm_type)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<sp_mat >(rcpp_result_gen);
+    }
+
+    inline mat compute_network_diffusion_Chebyshev(sp_mat& P, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8) {
+        typedef SEXP(*Ptr_compute_network_diffusion_Chebyshev)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_compute_network_diffusion_Chebyshev p_compute_network_diffusion_Chebyshev = NULL;
+        if (p_compute_network_diffusion_Chebyshev == NULL) {
+            validateSignature("mat(*compute_network_diffusion_Chebyshev)(sp_mat&,mat&,int,double,int,double)");
+            p_compute_network_diffusion_Chebyshev = (Ptr_compute_network_diffusion_Chebyshev)R_GetCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_Chebyshev");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_network_diffusion_Chebyshev(Shield<SEXP>(Rcpp::wrap(P)), Shield<SEXP>(Rcpp::wrap(X0)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(max_it)), Shield<SEXP>(Rcpp::wrap(res_threshold)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
+    inline mat compute_network_diffusion_final(sp_mat& G, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1) {
+        typedef SEXP(*Ptr_compute_network_diffusion_final)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_compute_network_diffusion_final p_compute_network_diffusion_final = NULL;
+        if (p_compute_network_diffusion_final == NULL) {
+            validateSignature("mat(*compute_network_diffusion_final)(sp_mat&,mat&,int,double,int,double,int)");
+            p_compute_network_diffusion_final = (Ptr_compute_network_diffusion_final)R_GetCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion_final");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_network_diffusion_final(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(X0)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(max_it)), Shield<SEXP>(Rcpp::wrap(res_threshold)), Shield<SEXP>(Rcpp::wrap(norm_type)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_ACTIONet_RCPPEXPORTS_H_GEN_

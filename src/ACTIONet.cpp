@@ -1175,31 +1175,6 @@ vec compute_archetype_core_centrality(sp_mat &G, uvec sample_assignments)
 //' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
 //' smoothed.expression = compute_network_diffusion(G, gene.expression)
 // [[Rcpp::export]]
-mat compute_network_diffusion(sp_mat &G, sp_mat &X0, int thread_no = 0,
-                              double alpha = 0.85, int max_it = 3)
-{
-  mat Diff =
-      ACTIONet::compute_network_diffusion(G, X0, thread_no, alpha, max_it);
-
-  return (Diff);
-}
-
-//' Computes network diffusion over a given network, starting with an arbitrarty
-// set of initial scores
-//'
-//' @param G Input graph
-//' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
-// ncol(X0)) ' @param thread_no Number of parallel threads (default=0) ' @param
-// alpha Random-walk depth ( between [0, 1] ) ' @param max_it PageRank
-// iterations
-//'
-//' @return Matrix of diffusion scores
-//'
-//' @examples
-//' G = colNets(ace)$ACTIONet
-//' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
-//' smoothed.expression = compute_network_diffusion(G, gene.expression)
-// [[Rcpp::export]]
 mat compute_network_diffusion_fast(sp_mat &G, sp_mat &X0, int thread_no = 0,
                                    double alpha = 0.85, int max_it = 3)
 {
@@ -2427,4 +2402,48 @@ List transform_layout(sp_mat &G, sp_mat &inter_graph, mat reference_coordinates,
   out_list["colors"] = res(2);
 
   return (out_list);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+sp_mat normalize_adj(sp_mat &G, int norm_type = 1)
+{
+  sp_mat P = ACTIONet::normalize_adj(G, norm_type);
+
+  return (P);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+mat compute_network_diffusion_Chebyshev(sp_mat &P, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8)
+{
+  mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0, thread_no, alpha, max_it, res_threshold);
+
+  return (X);
+}
+
+//' Computes network diffusion over a given network, starting with an arbitrarty
+// set of initial scores
+//'
+//' @param G Input graph
+//' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
+// ncol(X0)) ' @param thread_no Number of parallel threads (default=0) ' @param
+// alpha Random-walk depth ( between [0, 1] ) ' @param max_it PageRank
+// iterations
+//'
+//' @return Matrix of diffusion scores
+//'
+//' @examples
+//' G = colNets(ace)$ACTIONet
+//' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
+//' smoothed.expression = compute_network_diffusion(G, gene.expression)
+// [[Rcpp::export]]
+mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1)
+{
+  sp_mat P = normalize_adj(G, norm_type);
+  mat X0_norm = normalise(X0, 1, 0);
+
+  mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0_norm, thread_no, alpha, max_it, res_threshold);
+
+  return (X);
 }
