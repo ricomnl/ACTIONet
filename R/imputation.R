@@ -78,7 +78,10 @@ impute.genes.combined <- function(ace,
         subV <- V[genes, ]
     }
 
-    if ((alpha_val != 0) | !("ACTIONnorm" %in% names(colMaps(ace)))) {
+    if (!("ACTIONnorm" %in% names(colMaps(ace))) & (alpha_val == 0)) {
+        alpha_val <- 0.9
+    }
+    if (alpha_val != 0) {
         S_r <- Matrix::t(colMaps(ace)$ACTION)
         G <- ace$ACTIONet
         P <- normalize_adj(G, 0)
