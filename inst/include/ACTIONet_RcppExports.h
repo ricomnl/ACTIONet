@@ -1998,6 +1998,27 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
+    inline List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0) {
+        typedef SEXP(*Ptr_run_ACTION_muV)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_run_ACTION_muV p_run_ACTION_muV = NULL;
+        if (p_run_ACTION_muV == NULL) {
+            validateSignature("List(*run_ACTION_muV)(const List&,int,int,vec,double,int,int,int)");
+            p_run_ACTION_muV = (Ptr_run_ACTION_muV)R_GetCCallable("ACTIONet", "_ACTIONet_run_ACTION_muV");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_run_ACTION_muV(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(k_min)), Shield<SEXP>(Rcpp::wrap(k_max)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(lambda)), Shield<SEXP>(Rcpp::wrap(AA_iters)), Shield<SEXP>(Rcpp::wrap(Opt_iters)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<List >(rcpp_result_gen);
+    }
+
 }
 
 #endif // RCPP_ACTIONet_RCPPEXPORTS_H_GEN_

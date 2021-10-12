@@ -408,7 +408,7 @@ annotate.cells.using.markers.preimputed <- function(ace, markers, alpha_val = 0.
   marker_mat <- marker_mat[mask, ]
   subS <- ACTIONet:::impute.genes.combined(ace, rownames(marker_mat), thread_no = thread_no)
 
-  marker_stats <- ACTIONet::compute_marker_aggregate_stats_nonparametric(subS, marker_mat, thread_no = thread_no)
+  marker_stats <- ACTIONet::compute_marker_aggregate_stats_nonparametric(subS, marker_mat, thread_no = thread_no, mask.threshold = 1)
 
   if (alpha_val != 0) {
     G <- colNets(ace)[[net_slot]]
@@ -422,7 +422,7 @@ annotate.cells.using.markers.preimputed <- function(ace, markers, alpha_val = 0.
   conf <- apply(marker_stats, 1, max)
   conf <- -log10(p.adjust(pnorm(conf, lower.tail = F), method = "fdr"))
   annots.masked <- annots
-  annots.masked[conf < 2] <- "?"
+  annots.masked[conf < mask.threshold] <- "?"
 
   out <- list(Label = annots, Confidence = conf, Enrichment = marker_stats, Label.masked = annots.masked)
 

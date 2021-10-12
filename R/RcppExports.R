@@ -1100,6 +1100,10 @@ compute_marker_aggregate_stats_nonparametric <- function(S, marker_mat, thread_n
     .Call(`_ACTIONet_compute_marker_aggregate_stats_nonparametric`, S, marker_mat, thread_no)
 }
 
+run_ACTION_muV <- function(S, k_min, k_max, alpha, lambda = 1, AA_iters = 50L, Opt_iters = 0L, thread_no = 0L) {
+    .Call(`_ACTIONet_run_ACTION_muV`, S, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no)
+}
+
 roll_var <- function(X) {
     .Call(`_ACTIONet_roll_var`, X)
 }
