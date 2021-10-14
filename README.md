@@ -1,3 +1,4 @@
+# This branch is currently non functional due to changes to core. Please use the R branch for the time being.
 # Installation
 ### Setting Up the Environment (Preinstallation)
 **For Linux Users**
