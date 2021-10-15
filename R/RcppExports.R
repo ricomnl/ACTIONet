@@ -664,7 +664,7 @@ run_weighted_ACTION <- function(S_r, w, k_min = 2L, k_max = 30L, thread_no = 0L,
     .Call(`_ACTIONet_run_weighted_ACTION`, S_r, w, k_min, k_max, thread_no, max_it, min_delta)
 }
 
-prune_archetypes <- function(C_trace, H_trace, min_specificity_z_threshold = -1, min_cells = 3L) {
+prune_archetypes <- function(C_trace, H_trace, min_specificity_z_threshold = -3, min_cells = 3L) {
     .Call(`_ACTIONet_prune_archetypes`, C_trace, H_trace, min_specificity_z_threshold, min_cells)
 }
 
@@ -696,8 +696,8 @@ build_knn <- function(H, distance_metric = "jsd", k = 10, thread_no = 0L, mutual
 #' @examples
 #'	G = buildNetwork(prune.out$H_stacked)
 #'	vis.out = layoutNetwork(G, S_r)
-layoutNetwork <- function(G, initial_position, algorithm, compactness_level = 50L, n_epochs = 500L, layout_alg = 0L, thread_no = 0L, seed = 0L) {
-    .Call(`_ACTIONet_layoutNetwork`, G, initial_position, algorithm, compactness_level, n_epochs, layout_alg, thread_no, seed)
+layoutNetwork <- function(G, initial_position, algorithm, compactness_level = 50L, n_epochs = 1000L, thread_no = 0L, seed = 0L) {
+    .Call(`_ACTIONet_layoutNetwork`, G, initial_position, algorithm, compactness_level, n_epochs, thread_no, seed)
 }
 
 #' Encrypts a set of given input ids

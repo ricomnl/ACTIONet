@@ -381,7 +381,7 @@ namespace ACTIONet {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
-    inline List prune_archetypes(const List& C_trace, const List& H_trace, double min_specificity_z_threshold = -1, int min_cells = 3) {
+    inline List prune_archetypes(const List& C_trace, const List& H_trace, double min_specificity_z_threshold = -3, int min_cells = 3) {
         typedef SEXP(*Ptr_prune_archetypes)(SEXP,SEXP,SEXP,SEXP);
         static Ptr_prune_archetypes p_prune_archetypes = NULL;
         if (p_prune_archetypes == NULL) {
@@ -465,17 +465,17 @@ namespace ACTIONet {
         return Rcpp::as<sp_mat >(rcpp_result_gen);
     }
 
-    inline List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level = 50, unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0) {
-        typedef SEXP(*Ptr_layoutNetwork)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level = 50, unsigned int n_epochs = 1000, int thread_no = 0, int seed = 0) {
+        typedef SEXP(*Ptr_layoutNetwork)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_layoutNetwork p_layoutNetwork = NULL;
         if (p_layoutNetwork == NULL) {
-            validateSignature("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int,int)");
+            validateSignature("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int)");
             p_layoutNetwork = (Ptr_layoutNetwork)R_GetCCallable("ACTIONet", "_ACTIONet_layoutNetwork");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_layoutNetwork(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(initial_position)), Shield<SEXP>(Rcpp::wrap(algorithm)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(layout_alg)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
+            rcpp_result_gen = p_layoutNetwork(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(initial_position)), Shield<SEXP>(Rcpp::wrap(algorithm)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

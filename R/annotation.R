@@ -461,6 +461,50 @@ annotateArchs <- function(ace, annotation_source, archetype_slot = "H_unified") 
 }
 
 
+
+annotateClusters <- function(ace, annotation_source, cluster_name = "Leiden") {
+  cluster_slot <- sprintf("%s_markers_ACTIONet", cluster_name)
+
+  if (!is.list(annotation_source)) {
+    f <- factor(.preprocess_annotation_labels(annotation_source, ace))
+    associations <- as(model.matrix(~ 0. + f), "sparseMatrix")
+    colnames(associations) <- levels(f)
+
+    f2 <- factor(colData(ace)[[cluster_name]])
+    scores <- as.matrix(model.matrix(~ 0. + f2))
+    colnames(scores) <- levels(f2)
+
+    cluster_enrichment <- Matrix::t(assess_enrichment(scores, associations)$logPvals)
+    colnames(cluster_enrichment) <- levels(f)
+    rownames(cluster_enrichment) <- levels(f2)
+  } else {
+    features_use <- .preprocess_annotation_features(ace, NULL)
+    marker_mat <- as(.preprocess_annotation_markers(annotation_source, features_use), "sparseMatrix")
+
+    scores <- as.matrix(rowMaps(ace)[[cluster_slot]])
+    cluster_enrichment <- Matrix::t(assess_enrichment(scores, marker_mat)$logPvals)
+    colnames(cluster_enrichment) <- colnames(marker_mat)
+    rownames(cluster_enrichment) <- colnames(scores)
+  }
+  cluster_enrichment <- apply(cluster_enrichment, 2, function(x) x / sd(x))
+
+  cluster_enrichment[!is.finite(cluster_enrichment)] <- 0
+  annots <- colnames(cluster_enrichment)[apply(cluster_enrichment, 1, which.max)]
+  conf <- apply(cluster_enrichment, 1, max)
+
+  out <- list(
+    Label = annots,
+    Confidence = conf,
+    Enrichment = cluster_enrichment
+  )
+
+  return(out)
+}
+
+
+
+
+
 projectArchs <- function(ace, archtype_scores, archetype_slot = "H_unified", normalize = FALSE) {
   cell.enrichment.mat <- map.cell.scores.from.archetype.enrichment(
     ace = ace,

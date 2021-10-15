@@ -597,7 +597,7 @@ List run_weighted_ACTION(mat &S_r, vec w, int k_min = 2, int k_max = 30,
 // reconstruction.out = reconstruct_archetypes(S, ACTION.out$C, ACTION.out$H)
 // [[Rcpp::export]]
 List prune_archetypes(const List &C_trace, const List &H_trace,
-                      double min_specificity_z_threshold = -1,
+                      double min_specificity_z_threshold = -3,
                       int min_cells = 3)
 {
   int n_list = H_trace.size();
@@ -735,7 +735,7 @@ sp_mat build_knn(mat H, string distance_metric = "jsd", double k = 10, int threa
 //'	vis.out = layoutNetwork(G, S_r)
 // [[Rcpp::export]]
 List layoutNetwork(sp_mat &G, mat initial_position, string algorithm, int compactness_level = 50,
-                   unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0)
+                   unsigned int n_epochs = 1000, int thread_no = 0, int seed = 0)
 {
   field<mat> res =
       ACTIONet::layoutNetwork(G, initial_position, algorithm, compactness_level, n_epochs, thread_no, seed);

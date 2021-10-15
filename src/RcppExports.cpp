@@ -808,8 +808,8 @@ RcppExport SEXP _ACTIONet_build_knn(SEXP HSEXP, SEXP distance_metricSEXP, SEXP k
     return rcpp_result_gen;
 }
 // layoutNetwork
-List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level, unsigned int n_epochs, int layout_alg, int thread_no, int seed);
-static SEXP _ACTIONet_layoutNetwork_try(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level, unsigned int n_epochs, int thread_no, int seed);
+static SEXP _ACTIONet_layoutNetwork_try(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
@@ -817,18 +817,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< string >::type algorithm(algorithmSEXP);
     Rcpp::traits::input_parameter< int >::type compactness_level(compactness_levelSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type n_epochs(n_epochsSEXP);
-    Rcpp::traits::input_parameter< int >::type layout_alg(layout_algSEXP);
     Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(layoutNetwork(G, initial_position, algorithm, compactness_level, n_epochs, layout_alg, thread_no, seed));
+    rcpp_result_gen = Rcpp::wrap(layoutNetwork(G, initial_position, algorithm, compactness_level, n_epochs, thread_no, seed));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_layoutNetwork(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+RcppExport SEXP _ACTIONet_layoutNetwork(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_layoutNetwork_try(GSEXP, initial_positionSEXP, algorithmSEXP, compactness_levelSEXP, n_epochsSEXP, layout_algSEXP, thread_noSEXP, seedSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_layoutNetwork_try(GSEXP, initial_positionSEXP, algorithmSEXP, compactness_levelSEXP, n_epochsSEXP, thread_noSEXP, seedSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -3653,7 +3652,7 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("List(*unify_archetypes)(mat&,mat&,mat&,double,int)");
         signatures.insert("sp_mat(*buildNetwork)(mat,string,string,double,int,bool,int)");
         signatures.insert("sp_mat(*build_knn)(mat,string,double,int,bool)");
-        signatures.insert("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int,int)");
+        signatures.insert("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int)");
         signatures.insert("vector<string>(*encode_ids)(vector<string>,string)");
         signatures.insert("vector<string>(*decode_ids)(vector<string>,string)");
         signatures.insert("mat(*compute_pseudo_bulk_per_cluster)(sp_mat&,arma::Col<unsigned long long>)");
@@ -3854,7 +3853,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_unify_archetypes", (DL_FUNC) &_ACTIONet_unify_archetypes, 5},
     {"_ACTIONet_buildNetwork", (DL_FUNC) &_ACTIONet_buildNetwork, 7},
     {"_ACTIONet_build_knn", (DL_FUNC) &_ACTIONet_build_knn, 5},
-    {"_ACTIONet_layoutNetwork", (DL_FUNC) &_ACTIONet_layoutNetwork, 8},
+    {"_ACTIONet_layoutNetwork", (DL_FUNC) &_ACTIONet_layoutNetwork, 7},
     {"_ACTIONet_encode_ids", (DL_FUNC) &_ACTIONet_encode_ids, 2},
     {"_ACTIONet_decode_ids", (DL_FUNC) &_ACTIONet_decode_ids, 2},
     {"_ACTIONet_compute_pseudo_bulk_per_cluster", (DL_FUNC) &_ACTIONet_compute_pseudo_bulk_per_cluster, 2},

@@ -444,20 +444,28 @@ clusterNetwork <- function(G, algorithm = "Leiden",
   return(clusters)
 }
 
-clusterCells <- function(G, algorithm = "Leiden",
+clusterCells <- function(ace, algorithm = "Leiden",
+                         cluster_name = "Leiden",
                          resolution_parameter = 1.0,
                          initial_clustering = NULL,
                          seed = 0,
                          network_slot = "ACTIONet") {
-  cl <- clusterNetwork(G,
-    algorithm = algorithm,
-    resolution_parameter = resolution_parameter,
-    initial_clustering = initial_clustering,
-    seed = seed,
-    network_slot = network_slot
-  )
+  if (algorithm == "fix") {
+    cl <- initial_clustering
+  } else {
+    cl <- clusterNetwork(ace,
+      algorithm = algorithm,
+      resolution_parameter = resolution_parameter,
+      initial_clustering = initial_clustering,
+      seed = seed,
+      network_slot = network_slot
+    )
+  }
 
-  return(cl)
+  colData(ace)[[cluster_name]] <- cl
+  ace <- findMarkers.ace(ace, cl, out.name = cluster_name)
+
+  return(ace)
 }
 
 
