@@ -646,7 +646,7 @@ List prune_archetypes(const List &C_trace, const List &H_trace,
 //' }
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments
 // [[Rcpp::export]]
@@ -690,28 +690,28 @@ List unify_archetypes(mat &S_r, mat &C_stacked, mat &H_stacked,
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 // [[Rcpp::export]]
-sp_mat build_ACTIONet(mat H_stacked, double density = 1.0, int thread_no = 0,
-                      bool mutual_edges_only = true, string distance_metric = "jsd", string nn_approach = "k*nn", int k = 10)
+sp_mat buildNetwork(mat H, string algorithm = "k*nn", string distance_metric = "jsd", double density = 1.0, int thread_no = 0,
+                    bool mutual_edges_only = true, int k = 10)
 {
 
   double M = 16, ef_construction = 200, ef = 50;
-  sp_mat G = ACTIONet::build_ACTIONet(H_stacked, density, thread_no, M,
-                                      ef_construction, ef, mutual_edges_only, distance_metric, nn_approach, k);
+  sp_mat G = ACTIONet::buildNetwork(H, algorithm, distance_metric, density, thread_no, M,
+                                    ef_construction, ef, mutual_edges_only, k);
 
   return G;
 }
 
 // [[Rcpp::export]]
-sp_mat build_knn(mat H_stacked, double k = 10, int thread_no = 0,
-                 bool mutual_edges_only = true, string distance_metric = "jsd")
+sp_mat build_knn(mat H, string distance_metric = "jsd", double k = 10, int thread_no = 0,
+                 bool mutual_edges_only = true)
 {
 
   double M = 16, ef_construction = 200, ef = 10;
 
-  sp_mat G = ACTIONet::build_ACTIONet(H_stacked, 1, thread_no, M,
-                                      ef_construction, ef, mutual_edges_only, distance_metric, "knn", k);
+  sp_mat G = ACTIONet::buildNetwork(H, "knn", distance_metric, 1, thread_no, M,
+                                    ef_construction, ef, mutual_edges_only, k);
 
   return G;
 }
@@ -731,14 +731,14 @@ sp_mat build_knn(mat H_stacked, double k = 10, int thread_no = 0,
 //' }
 //'
 //' @examples
-//'	G = build_ACTIONet(prune.out$H_stacked)
-//'	vis.out = layout_ACTIONet(G, S_r)
+//'	G = buildNetwork(prune.out$H_stacked)
+//'	vis.out = layoutNetwork(G, S_r)
 // [[Rcpp::export]]
-List layout_ACTIONet(sp_mat &G, mat S_r, int compactness_level = 50,
-                     unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0)
+List layoutNetwork(sp_mat &G, mat initial_position, string algorithm, int compactness_level = 50,
+                   unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0)
 {
   field<mat> res =
-      ACTIONet::layout_ACTIONet(G, S_r, compactness_level, n_epochs, layout_alg, thread_no, seed);
+      ACTIONet::layoutNetwork(G, initial_position, algorithm, compactness_level, n_epochs, thread_no, seed);
 
   List out_list;
   out_list["coordinates"] = res(0);
@@ -806,7 +806,7 @@ vector<string> decode_ids(vector<string> encoded_ids, string pass)
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // pbs = compute_pseudo_bulk(S, cell.clusters)
@@ -829,7 +829,7 @@ mat compute_pseudo_bulk_per_cluster(sp_mat &S,
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // pbs = compute_pseudo_bulk(S, cell.clusters)
@@ -855,7 +855,7 @@ mat compute_pseudo_bulk_per_cluster_full(mat &S,
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // pbs.list = compute_pseudo_bulk(S, cell.clusters, sce$individuals)
@@ -883,7 +883,7 @@ field<mat> compute_pseudo_bulk_per_cluster_and_ind(
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // pbs.list = compute_pseudo_bulk(S, cell.clusters, sce$individuals)
@@ -947,7 +947,7 @@ field<mat> compute_pseudo_bulk_per_archetype_and_ind_full(
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters)
@@ -970,7 +970,7 @@ sp_mat renormalize_input_matrix(
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters)
@@ -1018,7 +1018,7 @@ List compute_archetype_feature_specificity_bin(sp_mat &S, mat &H, int thread_no 
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters) '	logPvals.list =
@@ -1047,7 +1047,7 @@ List compute_archetype_feature_specificity(sp_mat &S, mat &H, int thread_no = 0)
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters) '	logPvals.list =
@@ -1075,7 +1075,7 @@ List compute_archetype_feature_specificity_full(mat &S, mat &H, int thread_no = 
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters) '	logPvals.list =
@@ -1103,7 +1103,7 @@ List compute_cluster_feature_specificity(sp_mat &S, uvec sample_assignments, int
 //'
 //' @examples
 //' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-//'	G = build_ACTIONet(prune.out$H_stacked)
+//'	G = buildNetwork(prune.out$H_stacked)
 //' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 // prune.out$H_stacked) ' cell.clusters = unification.out$sample_assignments '
 // S.norm = renormalize_input_matrix(S, cell.clusters) '	logPvals.list =
@@ -2406,7 +2406,7 @@ List transform_layout(sp_mat &G, sp_mat &inter_graph, mat reference_coordinates,
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-sp_mat normalize_adj(sp_mat &G, int norm_type = 1)
+sp_mat normalize_adj(sp_mat &G, int norm_type = 0)
 {
   sp_mat P = ACTIONet::normalize_adj(G, norm_type);
 

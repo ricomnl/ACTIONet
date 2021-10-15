@@ -19,6 +19,9 @@ plot.ACTIONetExperiment <- function(ace, ...) {
       p_out <- do.call(plot.ACTIONet, as.list(args))
     } else if ((length(unique(x[[1]])) > 50) & (is.numeric(x[[1]]))) {
       p_out <- do.call(plot.ACTIONet.gradient, as.list(args))
+    } else if (sum(unlist(x[[1]]) %in% rownames(ace2)) > 0) {
+      genes <- sort(unique(unlist(x[[1]])))
+      p_out <- visualize.markers(ace, genes)
     } else {
       p_out <- do.call(plot.ACTIONet, args)
     }
@@ -35,7 +38,7 @@ plot.ACTIONetExperiment <- function(ace, ...) {
 #' @param trans_attr Numeric vector of length NROW(ace) or colname of 'colData(ace)' used to compute point transparency. Smaller values are more transparent.
 #' @param trans_fac Transparency modifier (default:1.5).
 #' @param trans_th Minimum Z-score for which points with 'scale(trans_attr) < trans_th' are masked  (default:-0.5).
-#' @param point_size Size of points in ggplot (default:1).
+#' @param point_size Size of points in ggplot (default:0.75).
 #' @param stroke_size Size of points outline (stroke) in ggplot (default:point_size*0.1).
 #' @param stroke_contrast_fac Factor by which to darken point outline for contrast (default:0.1).
 #' @param palette Color palette. character vector of hex colors or a palette name to pass to 'ggpubr::get_palette()').
@@ -60,7 +63,7 @@ plot.ACTIONet <- function(ace,
                           trans_attr = NULL,
                           trans_fac = 1.5,
                           trans_th = -0.5,
-                          point_size = 1,
+                          point_size = 0.75,
                           stroke_size = point_size * 0.1,
                           stroke_contrast_fac = 0.1,
                           palette = CPal_default,
@@ -178,7 +181,7 @@ plot.ACTIONet.3D <- function(ace,
                              trans_attr = NULL,
                              trans_th = -1,
                              trans_fac = 1,
-                             point_size = 1,
+                             point_size = 0.75,
                              palette = CPal_default,
                              coordinate_slot = "ACTIONet3D") {
   nV <- length(ncol(ace))
@@ -732,7 +735,7 @@ plot.ACTIONet.gradient <- function(ace,
                                    trans_attr = NULL,
                                    trans_fac = 1.5,
                                    trans_th = -0.5,
-                                   point_size = 1,
+                                   point_size = 0.75,
                                    stroke_size = point_size * 0.1,
                                    stroke_contrast_fac = 0.1,
                                    grad_palette = "magma",
@@ -835,10 +838,11 @@ visualize.markers <- function(ace,
                               trans_th = -0.5,
                               trans_fac = 3,
                               grad_palette = "magma",
-                              point_size = 1,
+                              point_size = 0.75,
                               net_attr = "ACTIONet",
                               coordinate_attr = "ACTIONet2D",
-                              single_plot = FALSE) {
+                              single_plot = FALSE,
+                              pre_alpha = 0.9, post_alpha = 0.9, diffusion_iters = 5, thread_no = 0, force_reimpute = FALSE) {
   features_use <- .preprocess_annotation_features(ace, features_use = features_use)
   markers_all <- sort(unique(unlist(markers)))
   marker_set <- intersect(markers_all, features_use)
@@ -848,24 +852,8 @@ visualize.markers <- function(ace,
     stop(err, call. = FALSE)
   }
 
-  if (length(marker_set) == 1) {
-    alpha_val <- 0
-  }
-
-  if (alpha_val > 0) {
-    expression_profile <- impute.genes.using.ACTIONet(
-      ace = ace,
-      genes = marker_set,
-      features_use = features_use,
-      alpha_val = alpha_val
-    )
-  } else {
-    expression_profile <- assays(ace)[[assay_name]][match(marker_set, features_use), ,
-      drop = FALSE
-    ]
-    expression_profile <- Matrix::t(expression_profile)
-    colnames(expression_profile) <- marker_set
-  }
+  expression_profile <- as.matrix(Matrix::t(ACTIONet:::imputeGenes(ace, marker_set, thread_no = thread_no, alpha_val = pre_alpha, diffusion_iters = diffusion_iters, net_attr = net_attr)))
+  colnames(expression_profile) <- marker_set
 
   print(sprintf("Markers Visualized: %s", paste0(marker_set, collapse = ", ")))
   markers_missing <- setdiff(markers_all, marker_set)
@@ -1031,7 +1019,7 @@ plot.ACTIONet.archetype.footprint <- function(ace,
                                               trans_th = -0.5,
                                               trans_fac = 3,
                                               grad_palette = "magma",
-                                              point_size = 1,
+                                              point_size = 0.75,
                                               net_attr = "ACTIONet",
                                               coordinate_attr = "ACTIONet2D",
                                               arch_attr = "H_unified",

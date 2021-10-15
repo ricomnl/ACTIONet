@@ -729,27 +729,27 @@ RcppExport SEXP _ACTIONet_unify_archetypes(SEXP S_rSEXP, SEXP C_stackedSEXP, SEX
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// build_ACTIONet
-sp_mat build_ACTIONet(mat H_stacked, double density, int thread_no, bool mutual_edges_only, string distance_metric, string nn_approach, int k);
-static SEXP _ACTIONet_build_ACTIONet_try(SEXP H_stackedSEXP, SEXP densitySEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP distance_metricSEXP, SEXP nn_approachSEXP, SEXP kSEXP) {
+// buildNetwork
+sp_mat buildNetwork(mat H, string algorithm, string distance_metric, double density, int thread_no, bool mutual_edges_only, int k);
+static SEXP _ACTIONet_buildNetwork_try(SEXP HSEXP, SEXP algorithmSEXP, SEXP distance_metricSEXP, SEXP densitySEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< mat >::type H_stacked(H_stackedSEXP);
+    Rcpp::traits::input_parameter< mat >::type H(HSEXP);
+    Rcpp::traits::input_parameter< string >::type algorithm(algorithmSEXP);
+    Rcpp::traits::input_parameter< string >::type distance_metric(distance_metricSEXP);
     Rcpp::traits::input_parameter< double >::type density(densitySEXP);
     Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
     Rcpp::traits::input_parameter< bool >::type mutual_edges_only(mutual_edges_onlySEXP);
-    Rcpp::traits::input_parameter< string >::type distance_metric(distance_metricSEXP);
-    Rcpp::traits::input_parameter< string >::type nn_approach(nn_approachSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(build_ACTIONet(H_stacked, density, thread_no, mutual_edges_only, distance_metric, nn_approach, k));
+    rcpp_result_gen = Rcpp::wrap(buildNetwork(H, algorithm, distance_metric, density, thread_no, mutual_edges_only, k));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_build_ACTIONet(SEXP H_stackedSEXP, SEXP densitySEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP distance_metricSEXP, SEXP nn_approachSEXP, SEXP kSEXP) {
+RcppExport SEXP _ACTIONet_buildNetwork(SEXP HSEXP, SEXP algorithmSEXP, SEXP distance_metricSEXP, SEXP densitySEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP kSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_build_ACTIONet_try(H_stackedSEXP, densitySEXP, thread_noSEXP, mutual_edges_onlySEXP, distance_metricSEXP, nn_approachSEXP, kSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_buildNetwork_try(HSEXP, algorithmSEXP, distance_metricSEXP, densitySEXP, thread_noSEXP, mutual_edges_onlySEXP, kSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -770,24 +770,24 @@ RcppExport SEXP _ACTIONet_build_ACTIONet(SEXP H_stackedSEXP, SEXP densitySEXP, S
     return rcpp_result_gen;
 }
 // build_knn
-sp_mat build_knn(mat H_stacked, double k, int thread_no, bool mutual_edges_only, string distance_metric);
-static SEXP _ACTIONet_build_knn_try(SEXP H_stackedSEXP, SEXP kSEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP distance_metricSEXP) {
+sp_mat build_knn(mat H, string distance_metric, double k, int thread_no, bool mutual_edges_only);
+static SEXP _ACTIONet_build_knn_try(SEXP HSEXP, SEXP distance_metricSEXP, SEXP kSEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< mat >::type H_stacked(H_stackedSEXP);
+    Rcpp::traits::input_parameter< mat >::type H(HSEXP);
+    Rcpp::traits::input_parameter< string >::type distance_metric(distance_metricSEXP);
     Rcpp::traits::input_parameter< double >::type k(kSEXP);
     Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
     Rcpp::traits::input_parameter< bool >::type mutual_edges_only(mutual_edges_onlySEXP);
-    Rcpp::traits::input_parameter< string >::type distance_metric(distance_metricSEXP);
-    rcpp_result_gen = Rcpp::wrap(build_knn(H_stacked, k, thread_no, mutual_edges_only, distance_metric));
+    rcpp_result_gen = Rcpp::wrap(build_knn(H, distance_metric, k, thread_no, mutual_edges_only));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_build_knn(SEXP H_stackedSEXP, SEXP kSEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP, SEXP distance_metricSEXP) {
+RcppExport SEXP _ACTIONet_build_knn(SEXP HSEXP, SEXP distance_metricSEXP, SEXP kSEXP, SEXP thread_noSEXP, SEXP mutual_edges_onlySEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_build_knn_try(H_stackedSEXP, kSEXP, thread_noSEXP, mutual_edges_onlySEXP, distance_metricSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_build_knn_try(HSEXP, distance_metricSEXP, kSEXP, thread_noSEXP, mutual_edges_onlySEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -807,27 +807,28 @@ RcppExport SEXP _ACTIONet_build_knn(SEXP H_stackedSEXP, SEXP kSEXP, SEXP thread_
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// layout_ACTIONet
-List layout_ACTIONet(sp_mat& G, mat S_r, int compactness_level, unsigned int n_epochs, int layout_alg, int thread_no, int seed);
-static SEXP _ACTIONet_layout_ACTIONet_try(SEXP GSEXP, SEXP S_rSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+// layoutNetwork
+List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level, unsigned int n_epochs, int layout_alg, int thread_no, int seed);
+static SEXP _ACTIONet_layoutNetwork_try(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< sp_mat& >::type G(GSEXP);
-    Rcpp::traits::input_parameter< mat >::type S_r(S_rSEXP);
+    Rcpp::traits::input_parameter< mat >::type initial_position(initial_positionSEXP);
+    Rcpp::traits::input_parameter< string >::type algorithm(algorithmSEXP);
     Rcpp::traits::input_parameter< int >::type compactness_level(compactness_levelSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type n_epochs(n_epochsSEXP);
     Rcpp::traits::input_parameter< int >::type layout_alg(layout_algSEXP);
     Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(layout_ACTIONet(G, S_r, compactness_level, n_epochs, layout_alg, thread_no, seed));
+    rcpp_result_gen = Rcpp::wrap(layoutNetwork(G, initial_position, algorithm, compactness_level, n_epochs, layout_alg, thread_no, seed));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_layout_ACTIONet(SEXP GSEXP, SEXP S_rSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
+RcppExport SEXP _ACTIONet_layoutNetwork(SEXP GSEXP, SEXP initial_positionSEXP, SEXP algorithmSEXP, SEXP compactness_levelSEXP, SEXP n_epochsSEXP, SEXP layout_algSEXP, SEXP thread_noSEXP, SEXP seedSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_layout_ACTIONet_try(GSEXP, S_rSEXP, compactness_levelSEXP, n_epochsSEXP, layout_algSEXP, thread_noSEXP, seedSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_layoutNetwork_try(GSEXP, initial_positionSEXP, algorithmSEXP, compactness_levelSEXP, n_epochsSEXP, layout_algSEXP, thread_noSEXP, seedSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -3650,9 +3651,9 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("List(*run_weighted_ACTION)(mat&,vec,int,int,int,int,double)");
         signatures.insert("List(*prune_archetypes)(const List&,const List&,double,int)");
         signatures.insert("List(*unify_archetypes)(mat&,mat&,mat&,double,int)");
-        signatures.insert("sp_mat(*build_ACTIONet)(mat,double,int,bool,string,string,int)");
-        signatures.insert("sp_mat(*build_knn)(mat,double,int,bool,string)");
-        signatures.insert("List(*layout_ACTIONet)(sp_mat&,mat,int,unsigned int,int,int,int)");
+        signatures.insert("sp_mat(*buildNetwork)(mat,string,string,double,int,bool,int)");
+        signatures.insert("sp_mat(*build_knn)(mat,string,double,int,bool)");
+        signatures.insert("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int,int)");
         signatures.insert("vector<string>(*encode_ids)(vector<string>,string)");
         signatures.insert("vector<string>(*decode_ids)(vector<string>,string)");
         signatures.insert("mat(*compute_pseudo_bulk_per_cluster)(sp_mat&,arma::Col<unsigned long long>)");
@@ -3751,9 +3752,9 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_run_weighted_ACTION", (DL_FUNC)_ACTIONet_run_weighted_ACTION_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_prune_archetypes", (DL_FUNC)_ACTIONet_prune_archetypes_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_unify_archetypes", (DL_FUNC)_ACTIONet_unify_archetypes_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_build_ACTIONet", (DL_FUNC)_ACTIONet_build_ACTIONet_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_buildNetwork", (DL_FUNC)_ACTIONet_buildNetwork_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_build_knn", (DL_FUNC)_ACTIONet_build_knn_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_layout_ACTIONet", (DL_FUNC)_ACTIONet_layout_ACTIONet_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_layoutNetwork", (DL_FUNC)_ACTIONet_layoutNetwork_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_encode_ids", (DL_FUNC)_ACTIONet_encode_ids_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_decode_ids", (DL_FUNC)_ACTIONet_decode_ids_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_pseudo_bulk_per_cluster", (DL_FUNC)_ACTIONet_compute_pseudo_bulk_per_cluster_try);
@@ -3851,9 +3852,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_run_weighted_ACTION", (DL_FUNC) &_ACTIONet_run_weighted_ACTION, 7},
     {"_ACTIONet_prune_archetypes", (DL_FUNC) &_ACTIONet_prune_archetypes, 4},
     {"_ACTIONet_unify_archetypes", (DL_FUNC) &_ACTIONet_unify_archetypes, 5},
-    {"_ACTIONet_build_ACTIONet", (DL_FUNC) &_ACTIONet_build_ACTIONet, 7},
+    {"_ACTIONet_buildNetwork", (DL_FUNC) &_ACTIONet_buildNetwork, 7},
     {"_ACTIONet_build_knn", (DL_FUNC) &_ACTIONet_build_knn, 5},
-    {"_ACTIONet_layout_ACTIONet", (DL_FUNC) &_ACTIONet_layout_ACTIONet, 7},
+    {"_ACTIONet_layoutNetwork", (DL_FUNC) &_ACTIONet_layoutNetwork, 8},
     {"_ACTIONet_encode_ids", (DL_FUNC) &_ACTIONet_encode_ids, 2},
     {"_ACTIONet_decode_ids", (DL_FUNC) &_ACTIONet_decode_ids, 2},
     {"_ACTIONet_compute_pseudo_bulk_per_cluster", (DL_FUNC) &_ACTIONet_compute_pseudo_bulk_per_cluster, 2},

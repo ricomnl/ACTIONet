@@ -64,11 +64,13 @@ impute.specific.genes.using.archetypes <- function(ace, genes) {
 #' imputed.genes <- impute.genes.using.ACTIONet(ace, c("CD14", "CD19", "CD3G"))
 #' plot.ACTIONet.gradient(ace, imputed.genes[, 1])
 #' @export
-impute.genes.combined <- function(ace,
-                                  genes,
-                                  alpha_val = 0,
-                                  thread_no = 0,
-                                  diffusion_iters = 5) {
+imputeGenes <- function(ace,
+                        genes,
+                        alpha_val = 0.9,
+                        thread_no = 0,
+                        diffusion_iters = 5,
+                        force_reimpute = FALSE,
+                        net_attr = "ACTIONet") {
     if (!("ACTION_V" %in% names(rowMaps(ace)))) {
         warning(sprintf("ACTION_V does not exist in rowMaps(ace)."))
         return()
@@ -78,12 +80,9 @@ impute.genes.combined <- function(ace,
         subV <- V[genes, ]
     }
 
-    if (!("ACTIONnorm" %in% names(colMaps(ace))) & (alpha_val == 0)) {
-        alpha_val <- 0.9
-    }
-    if (alpha_val != 0) {
+    if (!("ACTIONnorm" %in% names(colMaps(ace))) | (force_reimpute == TRUE)) {
         S_r <- Matrix::t(colMaps(ace)$ACTION)
-        G <- ace$ACTIONet
+        G <- colNets(ace)[[net_attr]]
         P <- normalize_adj(G, 0)
         S_r_norm <- compute_network_diffusion_Chebyshev(P, Matrix::t(S_r), alpha = alpha_val, max_it = diffusion_iters, thread_no = thread_no)
     } else {

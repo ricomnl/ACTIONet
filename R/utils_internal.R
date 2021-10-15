@@ -92,7 +92,7 @@
     }
 
     if (is.null(split_vec)) {
-        stop(sprintf("Invalid split conditions.\n"))
+        return(NULL)
     } else {
         split_vec <- as.character(split_vec)
     }
@@ -103,8 +103,8 @@
         sub_idx <- which(split_vec %in% groups_use)
         split_vec <- split_vec[sub_idx]
         if (is.null(split_vec)) {
-              stop(sprintf("Invalid split conditions.\n"))
-          }
+            return(NULL)
+        }
         IDX_out <- split(idx[sub_idx], split_vec)
         return(IDX_out)
     } else {
@@ -137,10 +137,13 @@
 
     if (is.character(labels)) {
         if (length(labels) == 1) {
-              labels <- .get_attr_or_split_idx(ace, attr = labels, return_vec = TRUE)
-          } else {
-              labels <- factor(labels)
-          }
+            labels <- .get_attr_or_split_idx(ace, attr = labels, return_vec = TRUE)
+        } else {
+            labels <- factor(labels)
+        }
+    }
+    if (is.null(labels)) {
+        return(NULL)
     }
 
     if ((length(labels) > 1) & is.logical(labels)) {

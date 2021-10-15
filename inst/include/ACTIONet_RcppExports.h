@@ -423,17 +423,17 @@ namespace ACTIONet {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
-    inline sp_mat build_ACTIONet(mat H_stacked, double density = 1.0, int thread_no = 0, bool mutual_edges_only = true, string distance_metric = "jsd", string nn_approach = "k*nn", int k = 10) {
-        typedef SEXP(*Ptr_build_ACTIONet)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_build_ACTIONet p_build_ACTIONet = NULL;
-        if (p_build_ACTIONet == NULL) {
-            validateSignature("sp_mat(*build_ACTIONet)(mat,double,int,bool,string,string,int)");
-            p_build_ACTIONet = (Ptr_build_ACTIONet)R_GetCCallable("ACTIONet", "_ACTIONet_build_ACTIONet");
+    inline sp_mat buildNetwork(mat H, string algorithm = "k*nn", string distance_metric = "jsd", double density = 1.0, int thread_no = 0, bool mutual_edges_only = true, int k = 10) {
+        typedef SEXP(*Ptr_buildNetwork)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_buildNetwork p_buildNetwork = NULL;
+        if (p_buildNetwork == NULL) {
+            validateSignature("sp_mat(*buildNetwork)(mat,string,string,double,int,bool,int)");
+            p_buildNetwork = (Ptr_buildNetwork)R_GetCCallable("ACTIONet", "_ACTIONet_buildNetwork");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_ACTIONet(Shield<SEXP>(Rcpp::wrap(H_stacked)), Shield<SEXP>(Rcpp::wrap(density)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(mutual_edges_only)), Shield<SEXP>(Rcpp::wrap(distance_metric)), Shield<SEXP>(Rcpp::wrap(nn_approach)), Shield<SEXP>(Rcpp::wrap(k)));
+            rcpp_result_gen = p_buildNetwork(Shield<SEXP>(Rcpp::wrap(H)), Shield<SEXP>(Rcpp::wrap(algorithm)), Shield<SEXP>(Rcpp::wrap(distance_metric)), Shield<SEXP>(Rcpp::wrap(density)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(mutual_edges_only)), Shield<SEXP>(Rcpp::wrap(k)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -444,17 +444,17 @@ namespace ACTIONet {
         return Rcpp::as<sp_mat >(rcpp_result_gen);
     }
 
-    inline sp_mat build_knn(mat H_stacked, double k = 10, int thread_no = 0, bool mutual_edges_only = true, string distance_metric = "jsd") {
+    inline sp_mat build_knn(mat H, string distance_metric = "jsd", double k = 10, int thread_no = 0, bool mutual_edges_only = true) {
         typedef SEXP(*Ptr_build_knn)(SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_build_knn p_build_knn = NULL;
         if (p_build_knn == NULL) {
-            validateSignature("sp_mat(*build_knn)(mat,double,int,bool,string)");
+            validateSignature("sp_mat(*build_knn)(mat,string,double,int,bool)");
             p_build_knn = (Ptr_build_knn)R_GetCCallable("ACTIONet", "_ACTIONet_build_knn");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_knn(Shield<SEXP>(Rcpp::wrap(H_stacked)), Shield<SEXP>(Rcpp::wrap(k)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(mutual_edges_only)), Shield<SEXP>(Rcpp::wrap(distance_metric)));
+            rcpp_result_gen = p_build_knn(Shield<SEXP>(Rcpp::wrap(H)), Shield<SEXP>(Rcpp::wrap(distance_metric)), Shield<SEXP>(Rcpp::wrap(k)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(mutual_edges_only)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -465,17 +465,17 @@ namespace ACTIONet {
         return Rcpp::as<sp_mat >(rcpp_result_gen);
     }
 
-    inline List layout_ACTIONet(sp_mat& G, mat S_r, int compactness_level = 50, unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0) {
-        typedef SEXP(*Ptr_layout_ACTIONet)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_layout_ACTIONet p_layout_ACTIONet = NULL;
-        if (p_layout_ACTIONet == NULL) {
-            validateSignature("List(*layout_ACTIONet)(sp_mat&,mat,int,unsigned int,int,int,int)");
-            p_layout_ACTIONet = (Ptr_layout_ACTIONet)R_GetCCallable("ACTIONet", "_ACTIONet_layout_ACTIONet");
+    inline List layoutNetwork(sp_mat& G, mat initial_position, string algorithm, int compactness_level = 50, unsigned int n_epochs = 500, int layout_alg = 0, int thread_no = 0, int seed = 0) {
+        typedef SEXP(*Ptr_layoutNetwork)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_layoutNetwork p_layoutNetwork = NULL;
+        if (p_layoutNetwork == NULL) {
+            validateSignature("List(*layoutNetwork)(sp_mat&,mat,string,int,unsigned int,int,int,int)");
+            p_layoutNetwork = (Ptr_layoutNetwork)R_GetCCallable("ACTIONet", "_ACTIONet_layoutNetwork");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_layout_ACTIONet(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(S_r)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(layout_alg)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
+            rcpp_result_gen = p_layoutNetwork(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(initial_position)), Shield<SEXP>(Rcpp::wrap(algorithm)), Shield<SEXP>(Rcpp::wrap(compactness_level)), Shield<SEXP>(Rcpp::wrap(n_epochs)), Shield<SEXP>(Rcpp::wrap(layout_alg)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(seed)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -1914,7 +1914,7 @@ namespace ACTIONet {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
-    inline sp_mat normalize_adj(sp_mat& G, int norm_type = 1) {
+    inline sp_mat normalize_adj(sp_mat& G, int norm_type = 0) {
         typedef SEXP(*Ptr_normalize_adj)(SEXP,SEXP);
         static Ptr_normalize_adj p_normalize_adj = NULL;
         if (p_normalize_adj == NULL) {

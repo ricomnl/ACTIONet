@@ -136,7 +136,7 @@ NULL
 #' }
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -164,7 +164,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -179,7 +179,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -196,7 +196,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -213,7 +213,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -228,7 +228,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -243,7 +243,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -271,7 +271,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -286,7 +286,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -299,7 +299,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -312,7 +312,7 @@ NULL
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
+#'	G = buildNetwork(prune.out$H_stacked)
 #' unification.out = unify_archetypes(G, S_r, prune.out$C_stacked,
 NULL
 
@@ -677,13 +677,13 @@ unify_archetypes <- function(S_r, C_stacked, H_stacked, violation_threshold = 0.
 #'
 #' @examples
 #' prune.out = prune_archetypes(ACTION.out$C, ACTION.out$H)
-#'	G = build_ACTIONet(prune.out$H_stacked)
-build_ACTIONet <- function(H_stacked, density = 1.0, thread_no = 0L, mutual_edges_only = TRUE, distance_metric = "jsd", nn_approach = "k*nn", k = 10L) {
-    .Call(`_ACTIONet_build_ACTIONet`, H_stacked, density, thread_no, mutual_edges_only, distance_metric, nn_approach, k)
+#'	G = buildNetwork(prune.out$H_stacked)
+buildNetwork <- function(H, algorithm = "k*nn", distance_metric = "jsd", density = 1.0, thread_no = 0L, mutual_edges_only = TRUE, k = 10L) {
+    .Call(`_ACTIONet_buildNetwork`, H, algorithm, distance_metric, density, thread_no, mutual_edges_only, k)
 }
 
-build_knn <- function(H_stacked, k = 10, thread_no = 0L, mutual_edges_only = TRUE, distance_metric = "jsd") {
-    .Call(`_ACTIONet_build_knn`, H_stacked, k, thread_no, mutual_edges_only, distance_metric)
+build_knn <- function(H, distance_metric = "jsd", k = 10, thread_no = 0L, mutual_edges_only = TRUE) {
+    .Call(`_ACTIONet_build_knn`, H, distance_metric, k, thread_no, mutual_edges_only)
 }
 
 #'
@@ -694,10 +694,10 @@ build_knn <- function(H_stacked, k = 10, thread_no = 0L, mutual_edges_only = TRU
 #' }
 #'
 #' @examples
-#'	G = build_ACTIONet(prune.out$H_stacked)
-#'	vis.out = layout_ACTIONet(G, S_r)
-layout_ACTIONet <- function(G, S_r, compactness_level = 50L, n_epochs = 500L, layout_alg = 0L, thread_no = 0L, seed = 0L) {
-    .Call(`_ACTIONet_layout_ACTIONet`, G, S_r, compactness_level, n_epochs, layout_alg, thread_no, seed)
+#'	G = buildNetwork(prune.out$H_stacked)
+#'	vis.out = layoutNetwork(G, S_r)
+layoutNetwork <- function(G, initial_position, algorithm, compactness_level = 50L, n_epochs = 500L, layout_alg = 0L, thread_no = 0L, seed = 0L) {
+    .Call(`_ACTIONet_layoutNetwork`, G, initial_position, algorithm, compactness_level, n_epochs, layout_alg, thread_no, seed)
 }
 
 #' Encrypts a set of given input ids
@@ -1077,7 +1077,7 @@ transform_layout <- function(G, inter_graph, reference_coordinates, compactness_
     .Call(`_ACTIONet_transform_layout`, G, inter_graph, reference_coordinates, compactness_level, n_epochs, layout_alg, thread_no, seed)
 }
 
-normalize_adj <- function(G, norm_type = 1L) {
+normalize_adj <- function(G, norm_type = 0L) {
     .Call(`_ACTIONet_normalize_adj`, G, norm_type)
 }
 
