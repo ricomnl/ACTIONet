@@ -125,6 +125,8 @@ runACTIONet <- function(ace,
   colMaps(ace)[["C_unified"]] <- as(ACTION.out$extra$C_unified, "sparseMatrix")
   colMapTypes(ace)[["C_unified"]] <- "internal"
 
+  ace$assigned_archetype <- c(ACTION.out$extra$assigned_archetype)
+
 
   # Build ACTIONet
   set.seed(seed)
@@ -398,7 +400,7 @@ rerunArchaggr <- function(ace,
   )
   colMapTypes(ace)[[sprintf("C_%s", unified_suffix)]] <- "internal"
 
-  colData(ace)[["assigned_archetype"]] <- c(unification.out$assigned_archetype)
+  ace$assigned_archetype <- c(unification.out$assigned_archetype)
 
   # Use graph core of global and induced subgraphs to infer centrality/quality of
   # each cell

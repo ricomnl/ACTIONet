@@ -1956,7 +1956,7 @@ namespace ACTIONet {
         return Rcpp::as<mat >(rcpp_result_gen);
     }
 
-    inline mat compute_network_diffusion(sp_mat& G, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1) {
+    inline mat compute_network_diffusion(sp_mat& G, mat& X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 0) {
         typedef SEXP(*Ptr_compute_network_diffusion)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_compute_network_diffusion p_compute_network_diffusion = NULL;
         if (p_compute_network_diffusion == NULL) {
@@ -1996,6 +1996,27 @@ namespace ACTIONet {
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
         return Rcpp::as<mat >(rcpp_result_gen);
+    }
+
+    inline List compute_marker_aggregate_stats_nonparametric_smoothed(sp_mat& G, mat& S, sp_mat& marker_mat, int thread_no = 0, int max_iter = 1, int norm_type = 0, double alpha = 0.85, int diff_max_iter = 3) {
+        typedef SEXP(*Ptr_compute_marker_aggregate_stats_nonparametric_smoothed)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_compute_marker_aggregate_stats_nonparametric_smoothed p_compute_marker_aggregate_stats_nonparametric_smoothed = NULL;
+        if (p_compute_marker_aggregate_stats_nonparametric_smoothed == NULL) {
+            validateSignature("List(*compute_marker_aggregate_stats_nonparametric_smoothed)(sp_mat&,mat&,sp_mat&,int,int,int,double,int)");
+            p_compute_marker_aggregate_stats_nonparametric_smoothed = (Ptr_compute_marker_aggregate_stats_nonparametric_smoothed)R_GetCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_marker_aggregate_stats_nonparametric_smoothed(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(marker_mat)), Shield<SEXP>(Rcpp::wrap(thread_no)), Shield<SEXP>(Rcpp::wrap(max_iter)), Shield<SEXP>(Rcpp::wrap(norm_type)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(diff_max_iter)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<List >(rcpp_result_gen);
     }
 
     inline List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0) {

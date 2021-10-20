@@ -1092,12 +1092,16 @@ compute_network_diffusion_Chebyshev <- function(P, X0, thread_no = 0L, alpha = 0
 #' G = colNets(ace)$ACTIONet
 #' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
 #' smoothed.expression = compute_network_diffusion(G, gene.expression)
-compute_network_diffusion <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8, norm_type = 1L) {
+compute_network_diffusion <- function(G, X0, thread_no = 0L, alpha = 0.85, max_it = 5L, res_threshold = 1e-8, norm_type = 0L) {
     .Call(`_ACTIONet_compute_network_diffusion`, G, X0, thread_no, alpha, max_it, res_threshold, norm_type)
 }
 
 compute_marker_aggregate_stats_nonparametric <- function(S, marker_mat, thread_no = 0L) {
     .Call(`_ACTIONet_compute_marker_aggregate_stats_nonparametric`, S, marker_mat, thread_no)
+}
+
+compute_marker_aggregate_stats_nonparametric_smoothed <- function(G, S, marker_mat, thread_no = 0L, max_iter = 1L, norm_type = 0L, alpha = 0.85, diff_max_iter = 3L) {
+    .Call(`_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed`, G, S, marker_mat, thread_no, max_iter, norm_type, alpha, diff_max_iter)
 }
 
 run_ACTION_muV <- function(S, k_min, k_max, alpha, lambda = 1, AA_iters = 50L, Opt_iters = 0L, thread_no = 0L) {

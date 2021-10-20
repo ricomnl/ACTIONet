@@ -2438,7 +2438,7 @@ mat compute_network_diffusion_Chebyshev(sp_mat &P, mat &X0, int thread_no = 0, d
 //' gene.expression = Matrix::t(logcounts(ace))[c("CD19", "CD14", "CD16"), ]
 //' smoothed.expression = compute_network_diffusion(G, gene.expression)
 // [[Rcpp::export]]
-mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 1)
+mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 0)
 {
   sp_mat P = normalize_adj(G, norm_type);
   mat X0_norm = normalise(X0, 1, 0);
@@ -2454,6 +2454,20 @@ mat compute_marker_aggregate_stats_nonparametric(mat &S, sp_mat &marker_mat, int
 {
   mat X = ACTIONet::compute_marker_aggregate_stats_nonparametric(S, marker_mat, thread_no);
   return (X);
+}
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+List compute_marker_aggregate_stats_nonparametric_smoothed(sp_mat &G, mat &S, sp_mat &marker_mat, int thread_no = 0, int max_iter = 1, int norm_type = 0, double alpha = 0.85, int diff_max_iter = 3)
+{
+  field<mat> res = ACTIONet::compute_marker_aggregate_stats_nonparametric_smoothed(G, S, marker_mat, thread_no, max_iter, norm_type, alpha, diff_max_iter);
+
+  List out_list;
+  out_list["cell_stats"] = res(0);
+  out_list["marker_weights"] = res(1);
+  out_list["Z"] = res(2);
+
+  return (out_list);
 }
 
 // [[Rcpp::depends(RcppArmadillo)]]
