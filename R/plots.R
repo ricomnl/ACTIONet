@@ -19,7 +19,7 @@ plot.ACTIONetExperiment <- function(ace, ...) {
       p_out <- do.call(plot.ACTIONet, as.list(args))
     } else if ((length(unique(x[[1]])) > 50) & (is.numeric(x[[1]]))) {
       p_out <- do.call(plot.ACTIONet.gradient, as.list(args))
-    } else if (sum(unlist(x[[1]]) %in% rownames(ace2)) > 0) {
+    } else if (sum(unlist(x[[1]]) %in% rownames(ace)) > 0) {
       genes <- sort(unique(unlist(x[[1]])))
       p_out <- visualize.markers(ace, genes)
     } else {
@@ -458,7 +458,7 @@ plot.ACTIONet.TF.view <- function(ace,
                                   title = "",
                                   label_size = 0.8,
                                   renormalize = FALSE) {
-  feat_scores <- assess.TF.activities.from.archetypes(ace2)
+  feat_scores <- assess.TF.activities.from.archetypes(ace)
 
   plot.ACTIONet.feature.view(
     ace = ace,
