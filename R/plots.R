@@ -880,7 +880,7 @@ visualize.markers <- function(
     if (length(markers_missing) > 0)
         print(sprintf("Markers Missing: %s", paste0(markers_missing, collapse = ", ")))
 
-    if(single_plot == TRUE && length(out) > 1){
+    if(single_plot == TRUE && NCOL(expression_profile) > 1){
       n = length(marker_set)
       d = .plot_arrange_dim(n)
       point_size = point_size/d[1]
