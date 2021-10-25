@@ -884,7 +884,7 @@ visualize.markers <- function(
       n = length(marker_set)
       d = .plot_arrange_dim(n)
       point_size = point_size/d[1]
-      )
+    }
 
     out = sapply(colnames(expression_profile), function(feat_name){
       x = expression_profile[, feat_name]
@@ -927,7 +927,6 @@ visualize.markers <- function(
         nrow = d[1],
         ncol = d[2]
       )
-
     }
 
     return(out)
