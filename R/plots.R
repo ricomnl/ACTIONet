@@ -915,7 +915,7 @@ visualize.markers <- function(
       out = out[[1]]
 
     if(single_plot == TRUE && length(out) > 1){
-
+      n = length(marker_set)
       d = .plot_arrange_dim(n)
       out = ggpubr::ggarrange(plotlist = out,
         nrow = d[1],
