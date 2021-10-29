@@ -43,16 +43,59 @@ fastBindSparse <- function(A, B, d = 1){
   return(sp_mat)
 }
 
+is.sparseMatrix <- function(A) {
+    return(length(which(is(A) == "sparseMatrix")) != 0)
+}
+
+rescale.matrix <- function(
+  S,
+  log_scale = FALSE,
+  median_scale = FALSE
+) {
+
+    if (is.matrix(S)) {
+        cs = fastColSums(S)
+        cs[cs == 0] = 1
+        B = Matrix::t(Matrix::t(S) / cs)
+
+        if (median_scale == TRUE){
+          B = B * median(cs)
+        }
+
+        if (log_scale == TRUE) {
+            B = log1p(B)
+        }
+
+    } else {
+        A = as(S, "dgTMatrix")
+        cs = fastColSums(S)
+        cs[cs == 0] = 1
+        x = A@x/cs[A@j + 1]
+
+        if (median_scale == TRUE){
+          x = x * median(cs)
+        }
+
+        if (log_scale == TRUE) {
+            x = log1p(x)
+        }
+        B = Matrix::sparseMatrix(
+          i = A@i + 1,
+          j = A@j + 1,
+          x = x,
+          dims = dim(A)
+        )
+    }
+
+    return(B)
+}
+
 orthoProject <- function(A, S) {
     A = scale(A)
     S = scale(S)
     A_r = A - S %*% MASS::ginv(t(S) %*% S) %*% (t(S) %*% A)
     A_r = scale(A_r)
     return(A_r)
-}
-
-is.sparseMatrix <- function(A) {
-    return(length(which(is(A) == "sparseMatrix")) != 0)
 }
 
 #' @export

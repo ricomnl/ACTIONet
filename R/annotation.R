@@ -51,17 +51,6 @@
 		rownames(X) = feature_set
 	}
 
-
-	# cs = fast_column_sums(X)
-	# filtered_cols = which(cs < 0)
-	# if(length(filtered_cols)) {
-	# 	not
-	# }
-	# col.mask = cs != 0
-	# X.sp = as(X, 'dgTMatrix')
-	# X.sp@x = X.sp@x / cs[X.sp@j+1]
-	# X = as(X.sp, "dgCMatrix")
-
     return(X)
 }
 

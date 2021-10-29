@@ -60,46 +60,16 @@ normalize.Linnorm <- function(
 normalize.default <- function(
   ace,
   assay_name = "counts",
-  log_scale = TRUE
+  log_scale = TRUE,
+  median_scale = TRUE
 ) {
 
     S = SummarizedExperiment::assays(ace)[[assay_name]]
-    B = rescale.matrix(S, log_scale)
+    B = rescale.matrix(S, log_scale, median_scale)
     rownames(B) = rownames(ace)
     colnames(B) = colnames(ace)
     SummarizedExperiment::assays(ace)[["logcounts"]] = B
     return(ace)
-}
-
-rescale.matrix <- function(
-  S,
-  log_scale = FALSE
-) {
-
-    if (is.matrix(S)) {
-        cs = fastColSums(S)
-        cs[cs == 0] = 1
-        B = median(cs) * Matrix::t(Matrix::t(S) / cs)
-        if (log_scale == TRUE) {
-            B = log1p(B)
-        }
-    } else {
-        A = as(S, "dgTMatrix")
-        cs = fastColSums(S)
-        cs[cs == 0] = 1
-        x = median(cs) * (A@x/cs[A@j + 1])
-        if (log_scale == TRUE) {
-            x = log1p(x)
-        }
-        B = Matrix::sparseMatrix(
-          i = A@i + 1,
-          j = A@j + 1,
-          x = x,
-          dims = dim(A)
-        )
-    }
-
-    return(B)
 }
 
 #' @export
@@ -141,12 +111,13 @@ normalize.ace <- function(
         ace = normalize.default(
           ace = ace,
           assay_name = assay_name,
-          log_scale = TRUE
+          log_scale = TRUE,
+          median_scale = TRUE
         )
         norm_method = "default"
     }
 
     metadata(ace)$normalization.method = norm_method
-    
+
     return(ace)
 }
