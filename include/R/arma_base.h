@@ -1,7 +1,6 @@
 #ifndef ARMA_BASE_H
 #define ARMA_BASE_H
 
-// #include <my_cblas.h>
 #include <../base/my_cblas.h>
 
 #define ARMA_DONT_USE_WRAPPER

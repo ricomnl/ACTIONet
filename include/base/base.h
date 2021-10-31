@@ -23,14 +23,6 @@
 #include <vector>
 
 #include <arma_base.h>
-// #include <layout/uwot/gradient.h>
-// #include <layout/uwot/sampler.h>
-// #include <layout/uwot/tauprng.h>
-// #include <misc/colorspace.h>
-// #include <misc/my_utils.h>
-// #include <clustering/HDBSCAN/hdbscan.hpp>
-// #include <math/cryptor.hpp>
-// #include <math/pcg/pcg_random.hpp>
 #include <../common/layout/uwot/gradient.h>
 #include <../common/layout/uwot/sampler.h>
 #include <../common/layout/uwot/tauprng.h>
@@ -42,7 +34,6 @@
 
 #define STATS_GO_INLINE
 #define STATS_ENABLE_ARMA_WRAPPERS
-// #include <math/StatsLib/stats.hpp>
 #include <../common/math/StatsLib/stats.hpp>
 
 // SVD algorithms
