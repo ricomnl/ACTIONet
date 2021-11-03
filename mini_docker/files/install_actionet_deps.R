@@ -1,2 +1,2 @@
-install.packages(c('Matrix', 'Rcpp', 'RcppArmadillo', 'R.utils', 'hdf5r', 'plotly', 'ggpubr', 'corrplot', 'wordcloud', 'threejs', 'RColorBrewer'))
+install.packages(c('devtools', 'Matrix', 'Rcpp', 'RcppArmadillo', 'R.utils', 'hdf5r', 'plotly', 'ggpubr', 'corrplot', 'wordcloud', 'threejs', 'RColorBrewer'))
 BiocManager::install(c("SingleCellExperiment", "ComplexHeatmap"))

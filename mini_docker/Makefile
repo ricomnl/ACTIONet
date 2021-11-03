@@ -5,8 +5,12 @@ VERSION=mini
 all: build
 
 build:
-	docker build \
-	  --tag $(IMAGE_NAME):${VERSION} --tag $(REGISTRY)/$(IMAGE_NAME):${VERSION} -t $(IMAGE_NAME) .
+	DOCKER_BUILDKIT=1 docker build \
+	  --tag ${IMAGE_NAME}:${VERSION} \
+	  --tag ${REGISTRY}/${IMAGE_NAME}:${VERSION} \
+	  --build-arg BUILDKIT_INLINE_CACHE=1 \
+	  .
+
 test:
-	docker run -it -e USER=ec2-user -e PASSWORD=insitro -e USERID=1000 -e GROUPID=1000 -e UMASK=022 -p 8888:8888  --rm  $(IMAGE_NAME):${VERSION}
+	docker run -it -e USER=user -e PASSWORD=password -e USERID=1000 -e GROUPID=1000 -e UMASK=022 -p 8888:8888  --rm  $(IMAGE_NAME):${VERSION}
 
