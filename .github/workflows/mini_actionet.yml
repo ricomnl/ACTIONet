@@ -5,7 +5,7 @@ on:
       - 'R-release'
 jobs:
   main:
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     timeout-minutes: 3000
     steps:
       - name: Checkout
