@@ -2490,7 +2490,7 @@ mat compute_network_diffusion_Chebyshev(sp_mat &P, mat &X0, int thread_no = 0, d
   if (P.n_rows != X0.n_rows)
   {
     fprintf(stderr, "Dimnsion mismatch: P (%dx%d) and X0 (%dx%d)\n", P.n_rows, P.n_cols, X0.n_rows, X0.n_cols);
-    return (mat())
+    return (mat());
   }
   mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0, thread_no, alpha, max_it, res_threshold);
 
@@ -2518,7 +2518,7 @@ mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alph
   if (G.n_rows != X0.n_rows)
   {
     fprintf(stderr, "Dimnsion mismatch: G (%dx%d) and X0 (%dx%d)\n", G.n_rows, G.n_cols, X0.n_rows, X0.n_cols);
-    return (mat())
+    return (mat());
   }
 
   sp_mat P = normalize_adj(G, norm_type);
