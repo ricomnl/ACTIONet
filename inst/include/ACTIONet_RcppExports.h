@@ -25,6 +25,27 @@ namespace ACTIONet {
         }
     }
 
+    inline List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0) {
+        typedef SEXP(*Ptr_run_ACTION_muV)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_run_ACTION_muV p_run_ACTION_muV = NULL;
+        if (p_run_ACTION_muV == NULL) {
+            validateSignature("List(*run_ACTION_muV)(const List&,int,int,vec,double,int,int,int)");
+            p_run_ACTION_muV = (Ptr_run_ACTION_muV)R_GetCCallable("ACTIONet", "_ACTIONet_run_ACTION_muV");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_run_ACTION_muV(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(k_min)), Shield<SEXP>(Rcpp::wrap(k_max)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(lambda)), Shield<SEXP>(Rcpp::wrap(AA_iters)), Shield<SEXP>(Rcpp::wrap(Opt_iters)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<List >(rcpp_result_gen);
+    }
+
     inline void set_seed(double seed) {
         typedef SEXP(*Ptr_set_seed)(SEXP);
         static Ptr_set_seed p_set_seed = NULL;
@@ -2019,17 +2040,17 @@ namespace ACTIONet {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
-    inline List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0) {
-        typedef SEXP(*Ptr_run_ACTION_muV)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_run_ACTION_muV p_run_ACTION_muV = NULL;
-        if (p_run_ACTION_muV == NULL) {
-            validateSignature("List(*run_ACTION_muV)(const List&,int,int,vec,double,int,int,int)");
-            p_run_ACTION_muV = (Ptr_run_ACTION_muV)R_GetCCallable("ACTIONet", "_ACTIONet_run_ACTION_muV");
+    inline mat layout_forceatlas2(sp_mat G, mat init_pos, vec center, int dim = 2, bool directed = false, int max_iter = 100, bool linlog = false, bool nohubs = false, double k = 400, double gravity = 1, double ks = 0.1, double ksmax = 10, double delta = 1, double tolerance = 0.1) {
+        typedef SEXP(*Ptr_layout_forceatlas2)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_layout_forceatlas2 p_layout_forceatlas2 = NULL;
+        if (p_layout_forceatlas2 == NULL) {
+            validateSignature("mat(*layout_forceatlas2)(sp_mat,mat,vec,int,bool,int,bool,bool,double,double,double,double,double,double)");
+            p_layout_forceatlas2 = (Ptr_layout_forceatlas2)R_GetCCallable("ACTIONet", "_ACTIONet_layout_forceatlas2");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_run_ACTION_muV(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(k_min)), Shield<SEXP>(Rcpp::wrap(k_max)), Shield<SEXP>(Rcpp::wrap(alpha)), Shield<SEXP>(Rcpp::wrap(lambda)), Shield<SEXP>(Rcpp::wrap(AA_iters)), Shield<SEXP>(Rcpp::wrap(Opt_iters)), Shield<SEXP>(Rcpp::wrap(thread_no)));
+            rcpp_result_gen = p_layout_forceatlas2(Shield<SEXP>(Rcpp::wrap(G)), Shield<SEXP>(Rcpp::wrap(init_pos)), Shield<SEXP>(Rcpp::wrap(center)), Shield<SEXP>(Rcpp::wrap(dim)), Shield<SEXP>(Rcpp::wrap(directed)), Shield<SEXP>(Rcpp::wrap(max_iter)), Shield<SEXP>(Rcpp::wrap(linlog)), Shield<SEXP>(Rcpp::wrap(nohubs)), Shield<SEXP>(Rcpp::wrap(k)), Shield<SEXP>(Rcpp::wrap(gravity)), Shield<SEXP>(Rcpp::wrap(ks)), Shield<SEXP>(Rcpp::wrap(ksmax)), Shield<SEXP>(Rcpp::wrap(delta)), Shield<SEXP>(Rcpp::wrap(tolerance)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -2037,7 +2058,7 @@ namespace ACTIONet {
             throw Rcpp::LongjumpException(rcpp_result_gen);
         if (rcpp_result_gen.inherits("try-error"))
             throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
-        return Rcpp::as<List >(rcpp_result_gen);
+        return Rcpp::as<mat >(rcpp_result_gen);
     }
 
 }

@@ -1,6 +1,13 @@
 #include <ACTIONet.h>
 #include <RcppArmadillo.h>
 
+/*
+#include "Rforceatlas_types.h"
+#include "params.hpp"
+#include "graph.hpp"
+#include "work.hpp"
+*/
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif
@@ -14,6 +21,69 @@ using namespace arma;
 
 #define ARMA_USE_CXX11_RNG
 #define DYNSCHED
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
+List run_ACTION_muV(const List &S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0)
+{
+
+  int n_list = S.size();
+  vector<mat> cell_signatures(n_list);
+  for (int i = 0; i < n_list; i++)
+  {
+    cell_signatures[i] = (as<mat>(S[i]));
+  }
+
+  full_trace run_trace = ACTIONet::runACTION_muV(cell_signatures, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no);
+
+  List res;
+
+  List H_consensus(k_max);
+  for (int kk = k_min; kk <= k_max; kk++)
+  {
+    H_consensus[kk - 1] = run_trace.H_consensus[kk];
+  }
+  res["H_consensus"] = H_consensus;
+
+  char ds_name[128];
+  for (int i = 0; i < n_list; i++)
+  {
+    List individual_trace;
+
+    List H_primary(k_max);
+    for (int kk = k_min; kk <= k_max; kk++)
+    {
+      H_primary[kk - 1] = run_trace.indiv_trace[kk].H_primary[i];
+    }
+    individual_trace["H_primary"] = H_primary;
+
+    List H_secondary(k_max);
+    for (int kk = k_min; kk <= k_max; kk++)
+    {
+      H_secondary[kk - 1] = run_trace.indiv_trace[kk].H_secondary[i];
+    }
+    individual_trace["H_secondary"] = H_secondary;
+
+    List C_primary(k_max);
+    for (int kk = k_min; kk <= k_max; kk++)
+    {
+      C_primary[kk - 1] = run_trace.indiv_trace[kk].C_primary[i];
+    }
+    individual_trace["C_primary"] = C_primary;
+
+    List C_consensus(k_max);
+    for (int kk = k_min; kk <= k_max; kk++)
+    {
+      C_consensus[kk - 1] = run_trace.indiv_trace[kk].C_consensus[i];
+    }
+    individual_trace["C_consensus"] = C_consensus;
+
+    sprintf(ds_name, "View%d_trace", i + 1);
+    res[ds_name] = individual_trace;
+  }
+
+  return res;
+}
 
 // set seed
 // [[Rcpp::export]]
@@ -2417,6 +2487,11 @@ sp_mat normalize_adj(sp_mat &G, int norm_type = 0)
 // [[Rcpp::export]]
 mat compute_network_diffusion_Chebyshev(sp_mat &P, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8)
 {
+  if (P.n_rows != X0.n_rows)
+  {
+    fprintf(stderr, "Dimnsion mismatch: P (%dx%d) and X0 (%dx%d)\n", P.n_rows, P.n_cols, X0.n_rows, X0.n_cols);
+    return (mat())
+  }
   mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0, thread_no, alpha, max_it, res_threshold);
 
   return (X);
@@ -2440,10 +2515,16 @@ mat compute_network_diffusion_Chebyshev(sp_mat &P, mat &X0, int thread_no = 0, d
 // [[Rcpp::export]]
 mat compute_network_diffusion(sp_mat &G, mat &X0, int thread_no = 0, double alpha = 0.85, int max_it = 5, double res_threshold = 1e-8, int norm_type = 0)
 {
-  sp_mat P = normalize_adj(G, norm_type);
-  mat X0_norm = normalise(X0, 1, 0);
+  if (G.n_rows != X0.n_rows)
+  {
+    fprintf(stderr, "Dimnsion mismatch: G (%dx%d) and X0 (%dx%d)\n", G.n_rows, G.n_cols, X0.n_rows, X0.n_cols);
+    return (mat())
+  }
 
-  mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0_norm, thread_no, alpha, max_it, res_threshold);
+  sp_mat P = normalize_adj(G, norm_type);
+  //mat X0_norm = normalise(X0, 1, 0);
+
+  mat X = ACTIONet::compute_network_diffusion_Chebyshev(P, X0, thread_no, alpha, max_it, res_threshold);
 
   return (X);
 }
@@ -2469,66 +2550,37 @@ List compute_marker_aggregate_stats_nonparametric_smoothed(sp_mat &G, mat &S, sp
 
   return (out_list);
 }
+/*
+
+RMatD forceatlas(
+    S4 m, Nullable<RMatD> init = R_NilValue, Nullable<RVecD> center = R_NilValue, Nullable<RVecD> vsizes = R_NilValue,
+    int dim = 2, int iter = 100, scalar delta = 1.0, scalar tol = 1.0, scalar k = 10.0, scalar G = 1.0,
+    bool linlog = false, bool strong = false, bool nohubs = false, bool overlap = false)
+{
+  Fa2Params params(delta, tol, k, G, linlog, strong, nohubs, overlap);
+  EigenMat W = as<EigenMat>(m);
+  Vec orig = (center.isNull()) ? Vec::Zero(dim) : as<Vec>(center.get());
+  EigenMat pos = (init.isNull()) ? EigenMat::Random(W.rows(), 2) * 1000 : as_rowmat(init.get());
+  Vec sizes = (vsizes.isNull()) ? Vec::Ones(W.rows()) : as<Vec>(vsizes);
+  GraphData gd(W, sizes);
+
+  Fa2Worker wrkr(pos, orig, gd, params);
+  for (int i = 0; i < iter; i++)
+  {
+    wrkr.fa2_epoch();
+  }
+
+  return wrap_rowmat(pos);
+}
+*/
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-List run_ACTION_muV(const List &S, int k_min, int k_max, vec alpha, double lambda = 1, int AA_iters = 50, int Opt_iters = 0, int thread_no = 0)
+mat layout_forceatlas2(sp_mat G, mat init_pos, vec center, int dim = 2, bool directed = false, int max_iter = 100, bool linlog = false, bool nohubs = false,
+                       double k = 400, double gravity = 1, double ks = 0.1, double ksmax = 10, double delta = 1,
+                       double tolerance = 0.1)
 {
+  mat pos = ACTIONet::layout_forceatlas2(G, init_pos, center, dim = 2, directed, max_iter, linlog, nohubs, k, gravity, ks, ksmax, delta, tolerance);
 
-  int n_list = S.size();
-  vector<mat> cell_signatures(n_list);
-  for (int i = 0; i < n_list; i++)
-  {
-    cell_signatures[i] = (as<mat>(S[i]));
-  }
-
-  full_trace run_trace = ACTIONet::runACTION_muV(cell_signatures, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no);
-
-  List res;
-
-  List H_consensus(k_max);
-  for (int kk = k_min; kk <= k_max; kk++)
-  {
-    H_consensus[kk - 1] = run_trace.H_consensus[kk];
-  }
-  res["H_consensus"] = H_consensus;
-
-  char ds_name[128];
-  for (int i = 0; i < n_list; i++)
-  {
-    List individual_trace;
-
-    List H_primary(k_max);
-    for (int kk = k_min; kk <= k_max; kk++)
-    {
-      H_primary[kk - 1] = run_trace.indiv_trace[kk].H_primary[i];
-    }
-    individual_trace["H_primary"] = H_primary;
-
-    List H_secondary(k_max);
-    for (int kk = k_min; kk <= k_max; kk++)
-    {
-      H_secondary[kk - 1] = run_trace.indiv_trace[kk].H_secondary[i];
-    }
-    individual_trace["H_secondary"] = H_secondary;
-
-    List C_primary(k_max);
-    for (int kk = k_min; kk <= k_max; kk++)
-    {
-      C_primary[kk - 1] = run_trace.indiv_trace[kk].C_primary[i];
-    }
-    individual_trace["C_primary"] = C_primary;
-
-    List C_consensus(k_max);
-    for (int kk = k_min; kk <= k_max; kk++)
-    {
-      C_consensus[kk - 1] = run_trace.indiv_trace[kk].C_consensus[i];
-    }
-    individual_trace["C_consensus"] = C_consensus;
-
-    sprintf(ds_name, "View%d_trace", i + 1);
-    res[ds_name] = individual_trace;
-  }
-
-  return res;
+  return (pos);
 }

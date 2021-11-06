@@ -19,7 +19,7 @@ plot.ACTIONetExperiment <- function(ace, ...) {
       p_out <- do.call(plot.ACTIONet, as.list(args))
     } else if ((length(unique(x[[1]])) > 50) & (is.numeric(x[[1]]))) {
       p_out <- do.call(plot.ACTIONet.gradient, as.list(args))
-    } else if (sum(unlist(x[[1]]) %in% rownames(ace)) > 0) {
+    } else if (sum(unlist(x[[1]]) %in% rownames(ace)) > length(x[[1]]) / 2) {
       genes <- sort(unique(unlist(x[[1]])))
       p_out <- visualize.markers(ace, genes)
     } else {
@@ -155,7 +155,7 @@ plot.ACTIONet <- function(ace,
     )
     p_out <- p_out + text_layer
   }
-
+  p_out <- p_out + guides(fill = guide_legend(override.aes = list(size = c(2.5, 2.5)))) # Change legend dot size
   p_out
 }
 
@@ -742,6 +742,11 @@ plot.ACTIONet.gradient <- function(ace,
                                    net_attr = "ACTIONet",
                                    coordinate_attr = "ACTIONet2D") {
   NA_col <- "#eeeeee"
+
+  if (length(gradient_attr) != ncol(ace)) {
+    err("gradient vector does not match ncol(ace)")
+    return()
+  }
 
   ## Create color gradient generator
   if (grad_palette %in% c("greys", "inferno", "magma", "viridis", "BlGrRd", "RdYlBu", "Spectral")) {

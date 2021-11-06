@@ -61,14 +61,18 @@ runACTIONet <- function(ace,
                         layout_algorithm = "TUMAP",
                         layout_in_parallel = TRUE,
                         unification_violation_threshold = 0,
-                        footprint_alpha = 0.85,
+                        footprint_alpha = 0.15,
                         thread_no = 0,
                         full_trace = FALSE,
                         seed = 0) {
   if (!(assay_name %in% names(assays(ace)))) {
-    err <- sprintf("Attribute %s is not an assay of the input ACE (SCE) object\n", assay_name)
-    stop(err)
+    msg <- sprintf("%s is not an assay of the input ACE (SCE) object. Trying to re-normalize and use logcounts\n", assay_name)
+    warning(msg)
+
+    ace = normalize.ace(ace)
+    assays_name = "logcounts"
   }
+
   S <- SummarizedExperiment::assays(ace)[[assay_name]]
   ace <- as(ace, "ACTIONetExperiment")
 
@@ -89,11 +93,22 @@ runACTIONet <- function(ace,
     }
   }
 
+  if ( !(reduction_slot %in% names(colMaps(ace))) ) {
+    msg <- sprintf("%s is not in colMaps (reducedDims) of the ACE (SCE) object. Rerunning reduction ... \n", reduction_slot)
+    warning(msg)
+    ace <- reduce.ace(ace = ace, reduced_dim = reduced_dim, assay_name = assay_name, reduction_slot = reduction_slot, seed = seed)
+  }
+  S_r <- Matrix::t(colMaps(ace)[[reduction_slot]])
+
+
+
   if (reduction_slot %in% names(colMaps(ace))) {
     S_r <- Matrix::t(colMaps(ace)[[reduction_slot]])
   } else {
-    err <- sprintf("Attribute %s is not in colMaps (reducedDims) of the ACE (SCE) object\n", assay_name)
-    stop(err)
+    msg <- sprintf("Attribute %s is not in colMaps (reducedDims) of the ACE (SCE) object. Rerunning reduction ... \n", assay_name)
+    warning(msg)
+    ace <- reduce.ace(ace = ace, reduced_dim = reduced_dim, assay_name = assay_name, reduction_slot = reduction_slot, seed = seed)
+    S_r <- Matrix::t(colMaps(ace)[[reduction_slot]])
   }
 
 
@@ -147,13 +162,13 @@ runACTIONet <- function(ace,
   colMapTypes(ace)[["ACTIONnorm"]] <- "internal"
 
   # Layout ACTIONet. Now it uses the smoothed S_r
-  initial_coordinates <- .tscalet(t(S_r_norm))
+  initial_coordinates <- .tscalet(S_r)
   colMaps(ace)[["ACTIONred"]] <- Matrix::t(initial_coordinates[1:3, ])
   colMapTypes(ace)[["ACTIONred"]] <- "embedding"
 
   vis.out <- layoutNetwork(
     G = G,
-    initial_position = S_r,
+    initial_position = initial_coordinates,
     algorithm = layout_algorithm,
     compactness_level = layout_compactness,
     n_epochs = layout_epochs,

@@ -14,6 +14,47 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// run_ACTION_muV
+List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda, int AA_iters, int Opt_iters, int thread_no);
+static SEXP _ACTIONet_run_ACTION_muV_try(SEXP SSEXP, SEXP k_minSEXP, SEXP k_maxSEXP, SEXP alphaSEXP, SEXP lambdaSEXP, SEXP AA_itersSEXP, SEXP Opt_itersSEXP, SEXP thread_noSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const List& >::type S(SSEXP);
+    Rcpp::traits::input_parameter< int >::type k_min(k_minSEXP);
+    Rcpp::traits::input_parameter< int >::type k_max(k_maxSEXP);
+    Rcpp::traits::input_parameter< vec >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< int >::type AA_iters(AA_itersSEXP);
+    Rcpp::traits::input_parameter< int >::type Opt_iters(Opt_itersSEXP);
+    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
+    rcpp_result_gen = Rcpp::wrap(run_ACTION_muV(S, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _ACTIONet_run_ACTION_muV(SEXP SSEXP, SEXP k_minSEXP, SEXP k_maxSEXP, SEXP alphaSEXP, SEXP lambdaSEXP, SEXP AA_itersSEXP, SEXP Opt_itersSEXP, SEXP thread_noSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_ACTIONet_run_ACTION_muV_try(SSEXP, k_minSEXP, k_maxSEXP, alphaSEXP, lambdaSEXP, AA_itersSEXP, Opt_itersSEXP, thread_noSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // set_seed
 void set_seed(double seed);
 static SEXP _ACTIONet_set_seed_try(SEXP seedSEXP) {
@@ -3555,28 +3596,34 @@ RcppExport SEXP _ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed(
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// run_ACTION_muV
-List run_ACTION_muV(const List& S, int k_min, int k_max, vec alpha, double lambda, int AA_iters, int Opt_iters, int thread_no);
-static SEXP _ACTIONet_run_ACTION_muV_try(SEXP SSEXP, SEXP k_minSEXP, SEXP k_maxSEXP, SEXP alphaSEXP, SEXP lambdaSEXP, SEXP AA_itersSEXP, SEXP Opt_itersSEXP, SEXP thread_noSEXP) {
+// layout_forceatlas2
+mat layout_forceatlas2(sp_mat G, mat init_pos, vec center, int dim, bool directed, int max_iter, bool linlog, bool nohubs, double k, double gravity, double ks, double ksmax, double delta, double tolerance);
+static SEXP _ACTIONet_layout_forceatlas2_try(SEXP GSEXP, SEXP init_posSEXP, SEXP centerSEXP, SEXP dimSEXP, SEXP directedSEXP, SEXP max_iterSEXP, SEXP linlogSEXP, SEXP nohubsSEXP, SEXP kSEXP, SEXP gravitySEXP, SEXP ksSEXP, SEXP ksmaxSEXP, SEXP deltaSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const List& >::type S(SSEXP);
-    Rcpp::traits::input_parameter< int >::type k_min(k_minSEXP);
-    Rcpp::traits::input_parameter< int >::type k_max(k_maxSEXP);
-    Rcpp::traits::input_parameter< vec >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< int >::type AA_iters(AA_itersSEXP);
-    Rcpp::traits::input_parameter< int >::type Opt_iters(Opt_itersSEXP);
-    Rcpp::traits::input_parameter< int >::type thread_no(thread_noSEXP);
-    rcpp_result_gen = Rcpp::wrap(run_ACTION_muV(S, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no));
+    Rcpp::traits::input_parameter< sp_mat >::type G(GSEXP);
+    Rcpp::traits::input_parameter< mat >::type init_pos(init_posSEXP);
+    Rcpp::traits::input_parameter< vec >::type center(centerSEXP);
+    Rcpp::traits::input_parameter< int >::type dim(dimSEXP);
+    Rcpp::traits::input_parameter< bool >::type directed(directedSEXP);
+    Rcpp::traits::input_parameter< int >::type max_iter(max_iterSEXP);
+    Rcpp::traits::input_parameter< bool >::type linlog(linlogSEXP);
+    Rcpp::traits::input_parameter< bool >::type nohubs(nohubsSEXP);
+    Rcpp::traits::input_parameter< double >::type k(kSEXP);
+    Rcpp::traits::input_parameter< double >::type gravity(gravitySEXP);
+    Rcpp::traits::input_parameter< double >::type ks(ksSEXP);
+    Rcpp::traits::input_parameter< double >::type ksmax(ksmaxSEXP);
+    Rcpp::traits::input_parameter< double >::type delta(deltaSEXP);
+    Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
+    rcpp_result_gen = Rcpp::wrap(layout_forceatlas2(G, init_pos, center, dim, directed, max_iter, linlog, nohubs, k, gravity, ks, ksmax, delta, tolerance));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _ACTIONet_run_ACTION_muV(SEXP SSEXP, SEXP k_minSEXP, SEXP k_maxSEXP, SEXP alphaSEXP, SEXP lambdaSEXP, SEXP AA_itersSEXP, SEXP Opt_itersSEXP, SEXP thread_noSEXP) {
+RcppExport SEXP _ACTIONet_layout_forceatlas2(SEXP GSEXP, SEXP init_posSEXP, SEXP centerSEXP, SEXP dimSEXP, SEXP directedSEXP, SEXP max_iterSEXP, SEXP linlogSEXP, SEXP nohubsSEXP, SEXP kSEXP, SEXP gravitySEXP, SEXP ksSEXP, SEXP ksmaxSEXP, SEXP deltaSEXP, SEXP toleranceSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_ACTIONet_run_ACTION_muV_try(SSEXP, k_minSEXP, k_maxSEXP, alphaSEXP, lambdaSEXP, AA_itersSEXP, Opt_itersSEXP, thread_noSEXP));
+        rcpp_result_gen = PROTECT(_ACTIONet_layout_forceatlas2_try(GSEXP, init_posSEXP, centerSEXP, dimSEXP, directedSEXP, max_iterSEXP, linlogSEXP, nohubsSEXP, kSEXP, gravitySEXP, ksSEXP, ksmaxSEXP, deltaSEXP, toleranceSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -3672,6 +3719,7 @@ END_RCPP
 static int _ACTIONet_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
+        signatures.insert("List(*run_ACTION_muV)(const List&,int,int,vec,double,int,int,int)");
         signatures.insert("void(*set_seed)(double)");
         signatures.insert("List(*IRLB_SVD)(sp_mat&,int,int,int,int)");
         signatures.insert("List(*IRLB_SVD_full)(mat&,int,int,int,int)");
@@ -3767,13 +3815,14 @@ static int _ACTIONet_RcppExport_validate(const char* sig) {
         signatures.insert("mat(*compute_network_diffusion)(sp_mat&,mat&,int,double,int,double,int)");
         signatures.insert("mat(*compute_marker_aggregate_stats_nonparametric)(mat&,sp_mat&,int)");
         signatures.insert("List(*compute_marker_aggregate_stats_nonparametric_smoothed)(sp_mat&,mat&,sp_mat&,int,int,int,double,int)");
-        signatures.insert("List(*run_ACTION_muV)(const List&,int,int,vec,double,int,int,int)");
+        signatures.insert("mat(*layout_forceatlas2)(sp_mat,mat,vec,int,bool,int,bool,bool,double,double,double,double,double,double)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_run_ACTION_muV", (DL_FUNC)_ACTIONet_run_ACTION_muV_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_set_seed", (DL_FUNC)_ACTIONet_set_seed_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_IRLB_SVD", (DL_FUNC)_ACTIONet_IRLB_SVD_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_IRLB_SVD_full", (DL_FUNC)_ACTIONet_IRLB_SVD_full_try);
@@ -3869,12 +3918,13 @@ RcppExport SEXP _ACTIONet_RcppExport_registerCCallable() {
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_network_diffusion", (DL_FUNC)_ACTIONet_compute_network_diffusion_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_nonparametric", (DL_FUNC)_ACTIONet_compute_marker_aggregate_stats_nonparametric_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed", (DL_FUNC)_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed_try);
-    R_RegisterCCallable("ACTIONet", "_ACTIONet_run_ACTION_muV", (DL_FUNC)_ACTIONet_run_ACTION_muV_try);
+    R_RegisterCCallable("ACTIONet", "_ACTIONet_layout_forceatlas2", (DL_FUNC)_ACTIONet_layout_forceatlas2_try);
     R_RegisterCCallable("ACTIONet", "_ACTIONet_RcppExport_validate", (DL_FUNC)_ACTIONet_RcppExport_validate);
     return R_NilValue;
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ACTIONet_run_ACTION_muV", (DL_FUNC) &_ACTIONet_run_ACTION_muV, 8},
     {"_ACTIONet_set_seed", (DL_FUNC) &_ACTIONet_set_seed, 1},
     {"_ACTIONet_IRLB_SVD", (DL_FUNC) &_ACTIONet_IRLB_SVD, 5},
     {"_ACTIONet_IRLB_SVD_full", (DL_FUNC) &_ACTIONet_IRLB_SVD_full, 5},
@@ -3970,7 +4020,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ACTIONet_compute_network_diffusion", (DL_FUNC) &_ACTIONet_compute_network_diffusion, 7},
     {"_ACTIONet_compute_marker_aggregate_stats_nonparametric", (DL_FUNC) &_ACTIONet_compute_marker_aggregate_stats_nonparametric, 3},
     {"_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed", (DL_FUNC) &_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed, 8},
-    {"_ACTIONet_run_ACTION_muV", (DL_FUNC) &_ACTIONet_run_ACTION_muV, 8},
+    {"_ACTIONet_layout_forceatlas2", (DL_FUNC) &_ACTIONet_layout_forceatlas2, 14},
     {"_ACTIONet_roll_var", (DL_FUNC) &_ACTIONet_roll_var, 1},
     {"_ACTIONet_fast_row_sums", (DL_FUNC) &_ACTIONet_fast_row_sums, 1},
     {"_ACTIONet_fast_column_sums", (DL_FUNC) &_ACTIONet_fast_column_sums, 1},

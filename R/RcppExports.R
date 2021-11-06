@@ -478,6 +478,10 @@ NULL
 #' @param X0 Matrix of initial values per diffusion (ncol(G) == nrow(G) ==
 NULL
 
+run_ACTION_muV <- function(S, k_min, k_max, alpha, lambda = 1, AA_iters = 50L, Opt_iters = 0L, thread_no = 0L) {
+    .Call(`_ACTIONet_run_ACTION_muV`, S, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no)
+}
+
 set_seed <- function(seed) {
     invisible(.Call(`_ACTIONet_set_seed`, seed))
 }
@@ -1104,8 +1108,8 @@ compute_marker_aggregate_stats_nonparametric_smoothed <- function(G, S, marker_m
     .Call(`_ACTIONet_compute_marker_aggregate_stats_nonparametric_smoothed`, G, S, marker_mat, thread_no, max_iter, norm_type, alpha, diff_max_iter)
 }
 
-run_ACTION_muV <- function(S, k_min, k_max, alpha, lambda = 1, AA_iters = 50L, Opt_iters = 0L, thread_no = 0L) {
-    .Call(`_ACTIONet_run_ACTION_muV`, S, k_min, k_max, alpha, lambda, AA_iters, Opt_iters, thread_no)
+layout_forceatlas2 <- function(G, init_pos, center, dim = 2L, directed = FALSE, max_iter = 100L, linlog = FALSE, nohubs = FALSE, k = 400, gravity = 1, ks = 0.1, ksmax = 10, delta = 1, tolerance = 0.1) {
+    .Call(`_ACTIONet_layout_forceatlas2`, G, init_pos, center, dim, directed, max_iter, linlog, nohubs, k, gravity, ks, ksmax, delta, tolerance)
 }
 
 roll_var <- function(X) {
