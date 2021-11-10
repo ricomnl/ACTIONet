@@ -9,7 +9,7 @@ import distutils
 from setuptools import find_packages, setup, Extension
 from setuptools.command.build_ext import build_ext
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 def parallelCCompile(self, sources, output_dir=None, macros=None, include_dirs=None, debug=0, extra_preargs=None, extra_postargs=None, depends=None):
     # those lines are copied from distutils.ccompiler.CCompiler directly
