@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <exception>
 #include <string>
-#include <optional>
 #include <hnswlib.h>
 #include <space_js.h>
 #include <space_scalar.h>
