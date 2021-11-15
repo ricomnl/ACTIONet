@@ -811,7 +811,7 @@ plot.ACTIONet.gradient <- function(
       point_order = idx,
       coordinate_attr = coordinate_attr,
       show_legend=show_legend
-    )+scale_color_continuous(
+    )
 
     return(p_out)
 }
