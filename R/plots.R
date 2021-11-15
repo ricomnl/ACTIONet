@@ -59,7 +59,7 @@ plot.ACTIONet <- function(
     if(is.null(plot_labels)){
       data_labels = "NA"
       add_text_labels = FALSE
-      show_legend = FALSE
+      show_legend = show_legend
       legend_labels = NULL
       legend_fill_colors = NULL
     } else {
@@ -811,7 +811,7 @@ plot.ACTIONet.gradient <- function(
       point_order = idx,
       coordinate_attr = coordinate_attr,
       show_legend=show_legend
-    )
+    )+scale_color_continuous(
 
     return(p_out)
 }
