@@ -70,7 +70,7 @@ plot.ACTIONet <- function(
     }
 
     if(!is.null(color_attr)){
-      show_legend = FALSE
+      show_legend = show_legend 
       legend_fill_colors = NULL
     }
 
