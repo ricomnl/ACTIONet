@@ -743,7 +743,8 @@ plot.ACTIONet.gradient <- function(
   stroke_contrast_fac = 0.1,
   grad_palette = "magma",
   net_attr = "ACTIONet",
-  coordinate_attr = "ACTIONet2D"
+  coordinate_attr = "ACTIONet2D",
+  show_legend=FALSE
 ) {
 
     NA_col = "#eeeeee"
@@ -808,7 +809,8 @@ plot.ACTIONet.gradient <- function(
       palette = NULL,
       add_text_labels = FALSE,
       point_order = idx,
-      coordinate_attr = coordinate_attr
+      coordinate_attr = coordinate_attr,
+      show_legend=show_legend
     )
 
     return(p_out)
